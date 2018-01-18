@@ -1,0 +1,358 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>SA-MIRI</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <style type="text/css">
+        body {
+            padding-top: 50px;
+        }
+
+        .starter-template {
+            padding: 40px 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="menu">
+
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="page-header">6. Getting Started with GPU based Supercomputing and CUDA programming model</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p>Use the <a target="_blank" href="https://www.bsc.es/support/MinoTauro-ug.pdf">MinoTauro User's Guide</a>
+                provided by the teacher to solve the tasks in this lab.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Connecting to MinoTauro</h3>
+                </div>
+                <div class="panel-body">
+                    <h5><strong class="autotask">task</strong>: Connect to Minotauro supercomputer using Secure Shell tool.
+                    </h5>
+                    <h5><strong class="autotask">task</strong>: Create a Hello World program in C, compile it and run it in your
+                        login
+                        node.
+                    </h5>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Submitting a Job</h3>
+                </div>
+                <div class="panel-body">
+                    <p>There are 2 supported methods for submitting jobs. The first one is to use a wrapper
+                        maintained by the Operations Team at BSC that provides a standard syntax regardless
+                        of the underlying Batch system (mnsubmit). The other one is to use the SLURM
+                        sbatch directives directly. The second option is recommended for advanced users
+                        only.</p>
+                    <h5><strong class="autotask">task</strong>: Submit your ”Hello World” program using SLURM system.
+                    </h5>
+                    <h5><strong class="autotask">task</strong>: Submit your ”Hello World” program using mnsubmit system.
+                    </h5>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> MPI Hello World</h3>
+                </div>
+                <div class="panel-body">
+                    <h5><strong class="autotask">task</strong>: Compile and run your MPI ”Hello World” program created during Lab
+                        3 using the MinoTauro batch system (mnsubmit).
+                    </h5>
+                    <h5><strong class="autotask">task</strong>:Compile and run your MPI ”Trapezoidal Rule” program created during
+                        Lab 3 using the MinoTauro batch system (mnsubmit).
+                    </h5>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Taking Time</h3>
+                </div>
+                <div class="panel-body">
+                    <h5><strong class="autotask">task</strong>: Usign <kbd>gettimeofday</kbd> function obtain the MPI execution time
+                        of
+                        the program that estimates the Pi number using the Trapezoidal Rule for 2 and 4
+                        processors for a n=16777216. Compare the results with the results obtained with
+                        Marenostrum. Justify the difference.
+                    </h5>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> MPI Matrix-vector product</h3>
+                </div>
+                <div class="panel-body">
+                    <h5><strong class="autotask">task</strong>: Compute the total parallel execution time
+                        t<small>par</small>(n, p)
+                        = σ(n) + φ(n)/p +
+                        κ(n, p) of the MPI parallel code used using one processor per node. Populate the
+                        following table. Comment the results obtained and compare with the previous obtained in
+                        Marenostrum.
+                    </h5>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Node</th>
+                            <th>n = 131072</th>
+                            <th>n = 262144</th>
+                            <th>n = 524288</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p>Hint: Example job file (2 Nodes)</p>
+                    <pre><code>#!/bin/bash
+#SBATCH --job-name=cuda_k80
+#SBATCH -D .
+#SBATCH --output=k80_%j.out
+#SBATCH --error=k80_%j.err
+#SBATCH --ntasks=2
+#SBATCH --ntasks-per-node=1
+#SBATCH --nodes=2
+#SBATCH --gres gpu:2
+#SBATCH --cpus-per-task=8
+#SBATCH --constraint=k80
+#SBATCH --time=00:02:00
+
+...</code></pre>
+
+                    <p>Hint: Add this to run a job using the reservation queue</p>
+                    <pre><code>#SBATCH --reservation=YOUR_RESERVATION</code></pre>
+
+                    <p>Hint: Add this to run a job using the debug queue</p>
+                    <pre><code>#SBATCH --partition=debug
+#SBATCH --qos=debug</code></pre>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> CUDA Hello World</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Hint: Ask for an interactive node using:<p>
+                        <pre><code class="bash">mnsh -k -g 1 </code></pre>
+
+                    <h5><strong class="autotask">task</strong>: Create and run a CUDA Hello World in a CPU of an interactive node of
+                        MinoTauro.
+                    </h5>
+                    <h5><strong class="autotask">task</strong>: Create and run a Hello World in a GPU of an interactive node of
+                        MinoTauro.
+                    </h5>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Data movement between host and device</h3>
+                </div>
+                <div class="panel-body">
+                    <h5><strong class="autotask">task</strong>: Based in the example of ”A simple kernel to add two integers”
+                        presented
+                        in theory class, create a code that adds two arrays. You can use the following code
+                        that perform array summation on the CPU and modify it to perform array summation
+                        on the GPU.
+                    </h5>
+                    <pre><code class="cpp">#include &lt;stdlib.h&gt;
+#include &lt;time.h&gt;
+void sumArraysOnHost(float *A, float *B, float *C, const int N)
+{
+    int idx;
+    for (idx = 0; idx < N; idx++)
+    {
+        C[idx] = A[idx] + B[idx];
+    }
+}
+void initialData(float *ip, int size)
+{
+    // generate different seed for random number
+    time_t t;
+    srand((unsigned) time(&t));
+
+    int i
+    for (i = 0; i < size; i++)
+    {
+        ip[i] = (float)(rand() & 0xFF) / 10.0f;
+    }
+    return;
+}
+
+int main(int argc, char **argv)
+{
+    int nElem = 1024;
+    size_t nBytes = nElem * sizeof(float);
+
+    float *h_A, *h_B, *h_C;
+    h_A = (float *)malloc(nBytes);
+    h_B = (float *)malloc(nBytes);
+    h_C = (float *)malloc(nBytes);
+
+    initialData(h_A, nElem);
+    initialData(h_B, nElem);
+
+    sumArraysOnHost(h_A, h_B, h_C, nElem);
+
+    free(h_A);
+    free(h_B);
+    free(h_C);
+
+    return(0);
+}</code></pre>
+
+                    <p>Some help:</p>
+
+                    <pre><code class="cpp">//Memory allocation:
+float *d_A, *d_B, *d_C;
+cudaMalloc((float**)&d_A, nBytes);
+cudaMalloc((float**)&d_B, nBytes);
+cudaMalloc((float**)&d_C, nBytes);
+
+// Transfer the data from the CPU memory to the GPU global memory
+cudaMemcpy(d_A, h_A, nBytes, cudaMemcpyHostToDevice);
+cudaMemcpy(d_B, h_B, nBytes, cudaMemcpyHostToDevice);
+
+// with the parameter cudaMemcpyHostToDevice specifying the transfer direction.
+
+//Copy the result from the GPU memory back to the host:
+cudaMemcpy(gpuRef, d_C, nBytes, cudaMemcpyDeviceToHost);
+
+// Release the memory used on the GPU
+cudaFree(d_A);
+cudaFree(d_B);
+cudaFree(d_C);
+}</code></pre>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Organizing Threads</h3>
+                </div>
+                <div class="panel-body">
+                    <h5><strong class="autotask">task</strong>: Create and run a CUDA program with a thread hierarchy structure with
+2D grid containing 2D blocks, that display the dimensionality of a thread block and
+grid from the host host side and device side.
+                    </h5>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Summiting jobs at MinoTauro</h3>
+                </div>
+                <div class="panel-body">
+                    <h5><strong class="autotask">task</strong>: Use the mnsubmit Batch system to run a Hello World in a CPU or GPU.
+                    </h5>
+                    <h5><strong class="autotask">task</strong>: Use the mnsubmit Batch system to run the case study matrix multiplication presented in theory class.
+                    </h5>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Timing the kernel</h3>
+                </div>
+                <div class="panel-body">
+                    <h5><strong class="autotask">task</strong>: Using <kbd>gettimeofday</kbd> measure the previous matrix multiplication
+example.
+                    </h5>
+                    <h5><strong class="autotask">task</strong>: Use the NVIDIA profiler <kbd>nvprof</kbd> to measure the previous matrix multiplication example.
+                    </h5>
+                    <h5><strong class="autotask">task</strong>: Use CUDA events to measure the previous matrix multiplication example.
+                    </h5>
+                    <h5><strong class="autotask">task</strong>: Compare the results obtained in the previous 3 tasks.
+                    </h5>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Timing the kernel</h3>
+                </div>
+                <div class="panel-body">
+                    <h5><strong class="autotask">task</strong>: Build a testbed based on the previous matrix multiplication example
+to evaluate the scalability of the algorithm in MinoTauro. Consider different values
+for the matrix size parameter, the block size and grid size. Discuss with the teacher
+during lab session your experimental design before starting the executions.
+example.
+                    </h5>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</div><!-- /.container -->
+
+
+<script
+        src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script type="application/javascript">
+    hljs.initHighlightingOnLoad();
+    var numlab = 6
+</script>
+<script src="autonum.js"></script>
+<script src="autoload.js"></script>
+
+</body>
+</html>

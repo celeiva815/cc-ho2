@@ -1,0 +1,253 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>SA-MIRI</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <style type="text/css">
+        body {
+            padding-top: 50px;
+        }
+
+        .center-image {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="menu">
+
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="page-header">8. Docker
+                <small>(Homework)</small>
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <img src="https://www.docker.com/sites/default/files/mono_vertical_large.png" class="img" style="height: 200px;
+padding-bottom: 20px;"/></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Python</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Python is a widely used programming language (source code is now available under the GNU General
+                        Public License GPL) started by Guido van Rossum that supports multiple programming paradigms.
+                        Although it is an interpreted language rather than compiled language and therefore might take up
+                        more CPU time (important detail in our Computer Architecture department), Python has a gentle
+                        learning curve. Python is readable, writeable, and endlessly powerful. Its simplicity lets you
+                        become productive quickly. Python is the programming language of choice for our labs. Only
+                        Python basics are required in order to follow these labs. If you have no prior knowledge of
+                        Python, to help you learn the required background knowledge by yourself, you can follow this
+                        <a href="https://github.com/jorditorresBCN/Quick-Start/blob/master/Python-Quick-Start.md"
+                           target="_blank">Python Quick Start</a>.</p>
+
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Docker</h3>
+                </div>
+                <div class="panel-body">
+                    <p><a href="https://www.docker.com" target="_blank">Docker</a> is the worlds leading software
+                        container platform. Developers use Docker to eliminate works on my local machine problems when
+                        collaborating on code with co-workers. Operators use Docker to run and manage apps side-by-side
+                        in isolated containers to get better compute density. Enterprises use Docker to build agile
+                        software delivery pipelines to ship new features faster, more securely and with confidence for
+                        both Linux and Windows Server apps.
+
+                        A container image is a lightweight, standalone, executable package of a piece of software that
+                        includes everything needed to run it: code, runtime, system tools, sys- tem libraries, settings.
+                        Available for both Linux and Windows based apps, containerised software will always run the
+                        same, regardless of the environment. Containers isolate software from its surroundings, for
+                        example differences between development and staging environments and help reduce conflicts
+                        between teams running different software on the same infrastructure. In this course, we will use
+                        Docker in order to isolate all the frameworks and programs and avoid configuration problems.</p>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> MNIST Dataset</h3>
+                </div>
+                <div class="panel-body">
+                    <p>The MNIST data-set is composed by a set of black and white images containing hand-written digits,
+                        containing more than 60.000 examples for training a model, and 10.000 for testing it. The MNIST
+                        data-set can be found at the MNIST database. This data-set is ideal for most of the people who
+                        begin with pattern recognition on real examples without having to spend time on data
+                        pre-processing or formatting, two very important steps when dealing with images but expensive in
+                        time.
+                    </p>
+                    <p>
+                        The black and white images (bilevel) have been normalized into 20×20 pixel images, preserving
+                        the aspect ratio. For this case, we notice that the images contain gray pixels as a result of
+                        the anti-aliasing used in the normalization algorithm (reducing the resolution of all the images
+                        to one of the lowest levels). After that, the images are centered in 28×28 pixel frames by
+                        computing the mass center and moving it into the center of the frame. The images are like the
+                        ones shown here:
+                    </p>
+                    <div class="center-image">
+                        <img src="img/mnist1.png"
+                             style="height: 100px"/>
+                    </div>
+
+                    <p>
+                        The images are represented as a numerical matrix. For example, one of the images of number 1 can
+                        be represented as:
+                    </p>
+
+                    <div class="center-image">
+                        <img src="img/mnist2.png"
+                             style="height: 275px"/>
+                    </div>
+
+                    <p>
+                        Where each position indicates the level of lackness of each pixel between 0 and 1. This matrix
+                        can also be transformed in a bunch of points in a vectorial space of 784 dimensions ( 28×28 =
+                        784 numbers).
+                    </p>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Lab Tasks</h3>
+                </div>
+                <div class="panel-body">
+                    <strong class="autotask">task</strong>: Install Docker for your platform
+                        <ul>
+                            <li>
+                                Windows 10 Pro/Enterprise, MacOS, Linux: <a
+                                    href="https://store.docker.com/search?type=edition&offering=community"
+                                    target="_blank">Link to Docker Store</a>.
+                            </li>
+                            <li>
+                                Other Windows versions: <a target="_blank"
+                                                           href="https://docs.docker.com/toolbox/toolbox_install_windows/">Link
+                                to Docker Toolbox</a>.
+                            </li>
+                        </ul>
+                    
+                    <strong class="autotask">task</strong>: Download and run the Docker image. Open a terminal
+                        (Mac/Linux), Open cmd or powershell (Windows 10 Pro) or Open the Docker CLI (Other windows
+                        versions) and then run:
+                    
+
+                    <pre><code class="bash">#Download the docker image
+docker pull jorditorresbcn/dl</code></pre>
+
+                    <p>MacOS and Windows users should have the docker program open in order to run docker commands. This
+                        docker image is based on Ubuntu 16.04 with the following software stack: Python3.5, Keras,
+                        TensorFlow, nano, htop, iPython, Jupyter, matplotlib and git.</p>
+
+                    <h5><strong class="autotask">task</strong>: Run the docker image for first time. Open a terminal on
+                        Linux/Mac, PowerShell on Windows 10 or the Docker CLI on other Windows versions and then run:
+                    </h5>
+
+                    <pre><code class="bash">#Create a container
+docker run -it -p 8888:8888  jorditorresbcn/dl:latest</code></pre>
+
+                    <p>If you close the container and you need to re-open it, run:</p>
+
+                    <pre><code class="bash">docker ps -a
+docker start -i YOUR_CONTAINER_ID</code></pre>
+
+                    <h5><strong class="autotask">task</strong>: Run the Jupyer Notebook server:
+                    </h5>
+
+                    <pre><code class="bash">#Inside the container
+jupyter notebook --ip=0.0.0.0 --allow-root</code></pre>
+
+                    <p>On your computer, open your browser and go to <a href="http://localhost:8888" target="_blank">http://localhost:8888</a>,
+                        the password is <strong>aidl</strong>.</p>
+
+                    <p>If you are on windows and you are experiencing connectivity issues, please check <a
+                            href="https://github.com/jorditorresBCN/dlaimet/blob/master/windows_proxy.md"
+                            target="_blank">THIS</a>.</p>
+
+                    <h5><strong class="autotask">task</strong>: Download and print MNIST dataset. On your browser,
+                        create a new notebook. Download the dataset using the following python code:
+                    </h5>
+
+                    <pre><code class="python">from keras.datasets import mnist
+# Load pre-shuffled MNIST data into train and test sets
+(X_train, y_train), (X_test, y_test) = mnist.load_data()</code></pre>
+
+                    <p>Print the shape of the variables:</p>
+
+                    <pre><code class="python solarized-dark">print(X_train.shape)
+print(y_train.shape)
+print(X_test.shape)
+print(y_test.shape)</code></pre>
+
+                    <p>Plot one of the data numbers using the following code:</p>
+
+                    <pre><code class="python">%matplotlib inline
+from matplotlib import pyplot as plt
+plt.imshow(X_train[0])</code></pre>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Lab report</h3>
+                </div>
+                <div class="panel-body">
+                    <p>If you don’t have time to finish all tasks during this lab session, please, follow the
+                        indications of your teacher about how to create your lab report and how to submit it.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</div><!-- /.container -->
+
+
+<script
+        src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script type="application/javascript">
+    hljs.initHighlightingOnLoad();
+    var numlab = 8
+</script>
+<script src="autonum.js"></script>
+<script src="autoload.js"></script>
+
+</body>
+</html>

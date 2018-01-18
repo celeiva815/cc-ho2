@@ -1,0 +1,263 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>SA-MIRI</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <style type="text/css">
+        body {
+            padding-top: 50px;
+        }
+
+        .center-image {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="menu">
+
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="page-header">10. Run a DNN on a GPU cluster (MinoTauro)
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <img src="http://www.bsc.es/actris/sites/default/files/logos/BSC-logo%201.jpg" class="img" style="height: 160px;
+padding-bottom: 20px;"/></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> VGG</h3>
+                </div>
+                <div class="panel-body">
+                    <p>VGG-19 is a deep convolutional network for object recognition developed and trained by Oxford's renowned Visual Geometry Group (VGG), which achieved very good performance on the ImageNet dataset. You can check Karen Simonyan and Andrew Zisserman publication: <a href="https://arxiv.org/pdf/1409.1556" target="_blank">Very Deep Convolutional Networks for Large-Scale Image Recognition</a>.</p>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> CIFAR-10</h3>
+                </div>
+                <div class="panel-body">
+                   
+                    <p>The CIFAR-10 dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images.</p>
+
+                    <p>The dataset is divided into five training batches and one test batch, each with 10000 images. The test batch contains exactly 1000 randomly-selected images from each class. The training batches contain the remaining images in random order, but some training batches may contain more images from one class than another. Between them, the training batches contain exactly 5000 images from each class.</p>
+
+                    <p>In this lab, we will train the VGG-19 network using the CIFAR-10 dataset with Keras.</p>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Run VGG network on your computer</h3>
+                </div>
+                <div class="panel-body">
+                    <h5><strong class="autotask">task</strong>: Open the Jupyter notebook with docker and open the <em>keras/vgg-book</em> file.
+                    </h5>
+                    <p>Run the file, wait the code to perform a few steps and record the remaining time info that Keras offers, then you can stop the execution. If you can not, kill the container.Please compelte the following table about your computer and the execution (Currently filled with an example):</p>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th> Processor (Ghz / Cores / Threads) </th>
+                                <th> Step </th>
+                                <th> Remaining time </th>
+                                <th> Accuracy </th>
+                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td>Intel Core i7 5500U (2.6Ghz / 2 Cores / 4 Threads)</td>
+                                    <td>96/50000</td>
+                                    <td>42h 36m 21s</td>
+                                    <td>0.0312</td>
+                            </tbody>
+                        </thead>
+                    </table>
+                    <p>Hint: If the execution fails, check the Docker docs in order to increase the RAM of your container.</p>
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Preparing files for MinoTauro</h3>
+                </div>
+                <div class="panel-body">
+                    <h5><strong class="autotask">task</strong>: Download the following repository to your computer:
+                    </h5>
+
+                    <pre><code>https://github.com/jorditorresBCN/dlaimet</code></pre>
+
+                    <h5><strong class="autotask">task</strong>: Copy the Keras folder to your MinoTauro Home.
+                    </h5>
+
+                    <h5><strong class="autotask">task</strong>: Download the following file:
+                    </h5>
+                    <pre><code>http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz</code></pre>
+
+                    <h5><strong class="autotask">task</strong>: Uncompress it and then, create a new folder called <em>cifar-10</em> inside the Keras folder on your MinoTauro Home and move all the uncompressed data to this folder.
+                    </h5>
+                    
+                    <h5><strong class="autotask">task</strong>: On the Keras folder, modify the <em>vgg.py</em> file (Update the <em>DATASET_DIR</em> value):
+                    </h5>
+
+                    <pre><code class="python">DATASET_DIR = "cifar-10"</code></pre>
+
+                    <h5><strong class="autotask">task</strong>: To run Python on MinoTauro, you have to load a few modules in your job file. To load the modules write:</h5>
+                        <pre><code class="bash">module purge; module load K80 cuda/8.0 mkl/2017.1 CUDNN/5.1.10-cuda_8.0 intel-opencl/2016 python/3.6.0+_ML</code></pre>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Comparing speeds</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Previous considerations:</p>
+                    <ul>
+                        <li>You can only ask for 2 or 4 GPUs (0, 1 and 3 are incorrect configurations). If you want, you do not have to use all GPUs.</li>
+                        <li>In these experiments the numer of cores is not relevant, we will put 16 cores in every job file.</li>
+                        <li>We will use the K80 nodes:
+                            <pre><code>#SBATCH --constraint=k80
+#SBATCH --gres: gpu:NUMBER_OF_GPUS</code></pre>
+                        </li>
+                        <li>In the <em>vgg.py</em> file, the flag <em>--num_gpu</em> controls the number of graphics cards that will be used during the training. Modifiy it depending of the number of GPUs that you have and you need.</li>                
+                    </ul> 
+                    <h5><strong class="autotask">task</strong>: Complete the following table:  </h5>
+
+                      <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th> Nodes </th>
+                                <th> GPUs asked / GPUs used </th>
+                                <th> Cores </th>
+                                <th> Job time wall </th>
+                                <th> Step </th>
+                                <th> Remaining time </th>
+                                <th> Accuracy </th>
+                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>2 / 1</td>
+                                    <td>16</td>
+                                    <td>15 min</td>
+                                    <td>?/50000</td>
+                                    <td> </td>
+                                    <td> </td>
+                                     </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>2 / 2</td>
+                                    <td>16</td>
+                                    <td>15 min</td>
+                                    <td>?/50000</td>
+                                    <td> </td>
+                                    <td> </td>
+                                     </tr>
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>4 / 4</td>
+                                    <td>16</td>
+                                    <td>15 min</td>
+                                    <td>?/50000</td>
+                                    <td> </td>
+                                    <td> </td>
+                                </tr>
+                            </tbody>
+                        </thead>
+                    </table>
+                    <h5><strong class="autotask">task</strong>: Create a used GPUs vs step bar chart, used GPUs vs remaining time bar chart and a used GPUs vs accuracy chart. Explain what conclusions can be obtained from the charts.</h5>
+
+                    <p>Hint: Example job file</p>
+                    <pre><code>#!/bin/bash
+#SBATCH --job-name=keras_k80
+#SBATCH -D .
+#SBATCH --output=k80_%j.out
+#SBATCH --error=k80_%j.err
+#SBATCH --ntasks=1
+#SBATCH --gres gpu:2
+#SBATCH --cpus-per-task=8
+#SBATCH --constraint=k80
+#SBATCH --time=00:15:00
+
+module purge; module load K80 cuda/8.0 mkl/2017.1 CUDNN/5.1.10-cuda_8.0 intel-opencl/2016 python/3.6.0+_ML
+python vgg.py --num_gpu=1</code></pre>
+
+                    <p>Hint: Add this to run a job using the reservation queue</p>
+                    <pre><code>#SBATCH --reservation=YOUR_RESERVATION</code></pre>
+
+                    <p>Hint: Add this to run a job using the debug queue</p>
+                    <pre><code>#SBATCH --partition=debug
+#SBATCH --qos=debug</code></pre>
+
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Lab report</h3>
+                </div>
+                <div class="panel-body">
+                    <p>If you don’t have time to finish all tasks during this lab session, please, follow the
+                        indications of your teacher about how to create your lab report and how to submit it.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</div><!-- /.container -->
+
+
+<script
+        src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script type="application/javascript">
+    hljs.initHighlightingOnLoad();
+    var numlab = 10
+</script>
+<script src="autonum.js"></script>
+<script src="autoload.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,236 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>SA-MIRI</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <style type="text/css">
+        body {
+            padding-top: 50px;
+        }
+
+        .center-image {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="menu">
+
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="page-header">9. First Steps with Keras
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <img src="https://s3.amazonaws.com/keras.io/img/keras-logo-2018-large-1200.png" class="img" style="height: 160px;
+padding-bottom: 20px;"/></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Keras</h3>
+                </div>
+                <div class="panel-body">
+                    <p><a href="https://keras.io" target="_blank">Keras</a> is a Python library that provides a clean
+                        and convenient way to create a range of deep
+                        learning models on top of powerful libraries such as TensorFlow, Theano or CNTK. Keras was
+                        developed and maintained by François Chollet, a Google engineer and it is released under the
+                        permissive MIT license.</p>
+
+                    <p>Below are the tasks of this lab session. If you don’t finish all of them during this session
+                        lab, please, read last Task before leaving classroom.</p>
+
+                    <BR>
+                    <h5><strong class="autotask">task</strong>: Update the docker image:
+                    </h5>
+
+                    <pre><code class="bash">#Download the docker image
+docker pull jorditorresbcn/dl:latest</code></pre>
+
+                    <h5><strong class="autotask">task</strong>: Create a container:
+                    </h5>
+
+                    <pre><code class="bash">#Create a container
+docker run -it -p 8888:8888 -p 6006:6006  jorditorresbcn/dl:latest</code></pre>
+
+                    <p>This container has:</p>
+                    <ul>
+                        <li>Port forwarding - 8888 (for Jupyter)</li>
+                        <li>Port forwarding - 6006 (for Tensorboard)</li>
+                    </ul>
+
+                    <h5><strong class="autotask">task</strong>: Clone the course repository:
+                    </h5>
+
+                    <pre><code class="bash">cd /app/
+git clone https://github.com/jorditorresBCN/dlaimet.git</code></pre>
+
+                    <h5><strong class="autotask">task</strong>: Run the Jupyer Notebook server:
+                    </h5>
+
+                    <pre><code class="bash">#Inside the container
+jupyter notebook --ip=0.0.0.0 --allow-root</code></pre>
+
+                    <p>On your computer, open your browser and go to <a href="http://localhost:8888" target="_blank">http://localhost:8888</a>,
+                        the password is <strong>aidl</strong>.</p>
+
+                    <p>If you are on windows and you are experiencing connectivity issues, please check <a
+                            href="https://github.com/jorditorresBCN/dlaimet/blob/master/windows_proxy.md"
+                            target="_blank">THIS</a>.</p>
+
+                    <h5><strong class="autotask">task</strong>: Run your first Keras program
+                    </h5>
+                    <p>First of all, using your browser with jupyter, open the Keras examples folder and locate the
+                        mnist-keras-book file. Try to run all the blocks t in order to check your Keras installation.
+
+                    </p>
+                    <p>The output should be something like (You can stop it anytime):</p>
+                    <pre><code class="python">Using TensorFlow backend.
+Downloading data from
+https://s3.amazonaws.com/img-datasets/mnist.npz
+   8192/11490434 [.] - ETA: 164 ...
+60000 train samples
+10000 test samples
+Train on 60000 samples, validate on 10000 samples
+Epoch 1/12
+128/60000 [.] - ETA: 102s - loss: 2.2928 - acc: 0.0938
+...</code></pre>
+                    <h5><strong class="autotask">task</strong>: Analyzing the code
+                    </h5>
+                    <p>Using your browser with jupyter, look for these parts on the code:</p>
+                    <ol>
+                        <li>Identify how Keras reads the data.</li>
+                        <li>Identify where the neural net definition is.</li>
+                        <li>Which are the layers used on this net? Which are the activation functions used on this
+                            net?
+                        </li>
+                        <li>Identify the loss and optimizer functions.</li>
+                    </ol>
+
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> TensorBoard</h3>
+                </div>
+                <div class="panel-body">
+                    <p><a href="https://www.tensorflow.org/get_started/summaries_and_tensorboard" target="_blank"
+                          rel="noopener">TensorBoard</a> is a visualization tool included with TensorFlow. You can use
+                        TensorBoard to
+                        visualize your TensorFlow graph, plot quantitative metrics about the execution of your graph,
+                        and show additional data like images that pass through it. In this lab we will use it to
+                        visualise information about our Keras network.</p>
+
+                    <p>The code contains the variables <em>tensorboard_dir</em> and <em>tensorboard_active</em> that
+                        allow the TensorBoard
+                        execution using the Keras callbacks. If you put <em>tensorboard_active</em> to <em>True</em>,
+                        Keras will start to
+                        save TensorBoard data to <em>tensorboard_dir</em> every epoch.</p>
+
+                    <h5><strong class="autotask">task</strong>: Run TensorBoard
+                    </h5>
+                    <p>Modify the <em>tensorboard_dir</em> value to a folder for saving the TensorBoard data. Change the
+                        <em>tensorboard_active</em> value to True. Before running the script, clear the jupyter kernel
+                        (Kernel -&gt; Restart and clear output).</p>
+                    <p>Hint: You will need another terminal for running TensorBoard and Jupyter at the same time. Open a
+                        new terminal and then use these commands:</p>
+                    <pre><code class="bash">docker ps
+docker exec -it YOUR_CONTAINER_ID /bin/bash
+cd /app/dlaimet/keras
+tensorboard --logdir=YOUR_TENSORBOARD_FOLDER
+#OUTPUT
+Starting TensorBoard Starting TensorBoard 0.1.6 at http://localhost:6006
+(Press CTRL+C to quit)</code></pre>
+
+                    <p>Go to <a href="http://localhost:6006" target="_blank">http://localhost:6006</a> through your
+                        browser and TensorBoard will start. We recommend Google Chrome or Chromium in order to avoid
+                        compatibility and lag problems.You will see an output like:</p>
+                    <div class="center-image">
+                        <img src="img/tb.png" style="height: 600px"/>
+                    </div>
+                    <p>You can run TensorBoard and Keras at same time, Tensor-Board will update the data every
+                        epoch.</p>
+
+                    <h5><strong class="autotask">task</strong>: How to use TensorBoard
+                    </h5>
+                    TensorBoard could be a very useful tool during your DLAI project. Now you are ready to learn by your
+                    self the required features that could help you. The following guides explain how to use TensorBoard:
+                    <ul>
+                        <li><a href="https://www.tensorflow.org/get_started/summaries_and_tensorboard">TensorBoard:
+                            Visualizing Learning</a>, which gets you started.
+                        </li>
+                        <li><a href="https://www.tensorflow.org/get_started/graph_viz">TensorBoard: Graph
+                            Visualization</a>, which explains how to visualize the computational graph. Graph
+                            visualization is typically more useful for programmers using the low-level API.
+                        </li>
+                    </ul>
+                    Going through the jupyter notebook, modify some hyperparameters (batch size, number of epochs,
+                    learning rate), optimizer, loss functions or the layers of the model. Use TensorBoard and the logs
+                    to observe the new accuracy. Before running the script, clear the jupyter kernel (Kernel -&gt;
+                    Restart and clear output) and modify the Tensorboard folder. Take a look to the TensorBoard docs for
+                    seeing how to merge different runs in one chart.
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Lab report</h3>
+                </div>
+                <div class="panel-body">
+                    <p>If you don’t have time to finish all tasks during this lab session, please, follow the
+                        indications of your teacher about how to create your lab report and how to submit it.</p>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</div><!-- /.container -->
+
+
+<script
+        src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script type="application/javascript">
+    hljs.initHighlightingOnLoad();
+    var numlab = 9
+</script>
+<script src="autonum.js"></script>
+<script src="autoload.js"></script>
+
+</body>
+</html>
