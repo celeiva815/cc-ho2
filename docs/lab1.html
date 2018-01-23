@@ -6,22 +6,14 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>SA-MIRI</title>
+    <title>CC-MEI-2018</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-    <style type="text/css">
-        body {
-            padding-top: 50px;
-        }
-
-        .center-image {
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="labs.css" >
 </head>
 <body>
 
@@ -33,8 +25,8 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h2 class="page-header">8. Docker
-                <small>(Homework)</small>
+            <h2 class="page-header">1. Docker
+                <button class="btn btn-right btn-xs btn-danger pull-right" disabled>Homework</button>
             </h2>
         </div>
     </div>
@@ -93,6 +85,8 @@ padding-bottom: 20px;"/></div>
                 </div>
             </div>
 
+            <!-- MNIST 
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><span class="autosection">numsection</span> MNIST Dataset</h3>
@@ -135,6 +129,8 @@ padding-bottom: 20px;"/></div>
                     </p>
                 </div>
             </div>
+
+        -->
 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -183,6 +179,7 @@ docker start -i YOUR_CONTAINER_ID</code></pre>
                     </h5>
 
                     <pre><code class="bash">#Inside the container
+#Ignore the error-> No web browser found: could not locate runnable browser.
 jupyter notebook --ip=0.0.0.0 --allow-root</code></pre>
 
                     <p>On your computer, open your browser and go to <a href="http://localhost:8888" target="_blank">http://localhost:8888</a>,
@@ -192,26 +189,24 @@ jupyter notebook --ip=0.0.0.0 --allow-root</code></pre>
                             href="https://github.com/jorditorresBCN/dlaimet/blob/master/windows_proxy.md"
                             target="_blank">THIS</a>.</p>
 
-                    <h5><strong class="autotask">task</strong>: Download and print MNIST dataset. On your browser,
-                        create a new notebook. Download the dataset using the following python code:
+                    <h5><strong class="autotask">task</strong>: On your browser,
+                        create a new notebook. Run the following code:
                     </h5>
-
-                    <pre><code class="python">from keras.datasets import mnist
-# Load pre-shuffled MNIST data into train and test sets
-(X_train, y_train), (X_test, y_test) = mnist.load_data()</code></pre>
-
-                    <p>Print the shape of the variables:</p>
-
-                    <pre><code class="python solarized-dark">print(X_train.shape)
-print(y_train.shape)
-print(X_test.shape)
-print(y_test.shape)</code></pre>
-
-                    <p>Plot one of the data numbers using the following code:</p>
 
                     <pre><code class="python">%matplotlib inline
 from matplotlib import pyplot as plt
-plt.imshow(X_train[0])</code></pre>
+import numpy as np</code></pre>
+
+                    <p>Create 50 random points:</p>
+
+                    <pre><code class="python solarized-dark">N = 50
+x = np.random.rand(N)
+y = np.random.rand(N)</code></pre>
+
+                    <p>Plot the points:</p>
+
+                    <pre><code class="python">plt.scatter(x, y)
+plt.show()</code></pre>
 
                 </div>
             </div>
@@ -221,7 +216,7 @@ plt.imshow(X_train[0])</code></pre>
                     <h3 class="panel-title"><span class="autosection">numsection</span> Lab report</h3>
                 </div>
                 <div class="panel-body">
-                    <p>If you don’t have time to finish all tasks during this lab session, please, follow the
+                    <p>Please, follow the
                         indications of your teacher about how to create your lab report and how to submit it.</p>
                 </div>
             </div>
@@ -244,7 +239,7 @@ plt.imshow(X_train[0])</code></pre>
         crossorigin="anonymous"></script>
 <script type="application/javascript">
     hljs.initHighlightingOnLoad();
-    var numlab = 8
+    var numlab = 1
 </script>
 <script src="autonum.js"></script>
 <script src="autoload.js"></script>

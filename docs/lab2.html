@@ -1,0 +1,574 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>CC-MEI-2018</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="labs.css" >
+</head>
+<body>
+
+<div id="menu">
+
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="page-header">2. Doors in the cloud
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <img src="https://upload.wikimedia.org/wikipedia/en/9/9f/Twitter_bird_logo_2012.svg" class="img" style="height: 200px;
+padding-bottom: 20px;"/></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Register Our App on Twitter 
+                        <button class="btn btn-right btn-xs btn-success pull-right" disabled>Do it at home</button>
+                    </h3>  
+                </div>
+                <div class="panel-body">
+                    <p>Cloud applications are characterized by an increased focus on user participation and content creation, but also by a deep interaction and interconnection of applications sharing con-tent from different types of services in order to integrate multiple systems together. This scenario is, doubtlessly, possible thanks to the rise of the “Application Programming Interfaces” (API).</p>
+
+                <p>An API, or Application Programming Interface, provide a way for computer systems to interact with each other. There are many types of APIs. Every programming language has a built-in API that it used to write programs. For instance, you studied in previous courses that operating systems themselves have APIs used by programs to open files or draw text on the screen. Due this course is centered in the Cloud, we are going to focus on API that are built with web technologies as HTTP. We will refer to this type of API as web API, an interface to either a web server or a web browser. These APIs are used extensively for the development of web applications and work at either the server end or the client end. Web APIs are a key component into today Cloud era. Many cloud applications provide an API that allows developers to integrate their own code with these applications, taking ad-vantage of the services' functionality in their own apps.</p>
+
+                <p>One example amount the vast number of available one is Twitter API. Twitter API allows to access all tweets made by any user, the tweets containing a particular term or even a combination of terms, tweets done on the topic in a particular date range, etc.</p>
+
+                <p>In order to set up our Lab 2 to access Twitter data, there are some preliminary steps. Twitter implements OAuth (called Open Authorization) as its standard authentication mechanism, and in order to have access to Twitter data programmatically, we need to create an app that interacts with the Twitter API. There are four primary identifiers we will need to note for an OAuth workflow: consumer key, consumer secret, access token, and access token secret. A good new from developer's perspective is that the Python ecosystem has already wellestablished libraries for most social media platforms, which come with an implementation of the authentication process.</p>
+
+                <p>The first step in this homework is the registration of your app. In particular, you need to point your browser to <a target="_blank" href="https://apps.twitter.com">http://apps.twitter.com</a>, log-in to Twitter and register a new application. You will receive a Consumer Key and a Consumer secret. From the configuration page "Keys and Access Token" of your app, you can also obtain the Access Token and a Access Token Secret. Save this information to perform the following Lab session.</p>
+
+                <div class="alert alert-warning" role="alert"><strong>Warning:</strong> these are application settings that should always be kept private.</div>
+
+
+                <p>Note that you will need a Twitter account in order to login, create an app, and get these credentials.</p>
+
+                </div>
+            </div>
+
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Lab Tasks: Get Started with NLTK</h3>
+                </div>
+                <div class="panel-body">
+
+                    <p>One of the most popular packages in Python for NLP is Natural Language Toolkit (<a href="http://www.nltk.org/" target="_blank">NLTK</a>). The toolkit provides a friendly interface for many of the common NLP tasks, as well as lexical resources and linguistic data.</p>
+
+                    <p>Tokenisation is one of the most basic, yet most important, steps in text analysis required in the following task. The purpose of tokenisation is to split a stream of text into smaller units called tokens, usually words or phrases. For this purpouse we will use the <a href="http://www.nltk.org/" target="_blank">NLTK</a> Python Natural Language Processing Toolkit:</p>
+
+                    <pre><code class="python">import nltk</code></pre>
+
+                    <p>A difference between NLTK and many other packages is that this framework also comes with linguistic data for specific tasks. Given their size, such data is not included in the default installation, but has to be downloaded separately. For this reason, after importing NLTK, we need download NLTK Data which include a lot of corpora, grammars, models and etc. You can find the complete nltk data list <a href="http://www.nltk.org/nltk_data" target="_blank">here</a>. You can downloaded all nltk resources by nltk.download('all') but it takes ~3.5G. For english text we could use nltk.download('punkt') to download the NLTK data package that includes a pre-trained tokenizer for English.</p>
+
+                    <p>Let’s see the example using the NLTK to tokenise the book <a target="_blank" href="http://www.jorditorres.org/Tensorflow">First Contact with TensorFlow</a> (<code>FirstContactWithTensorFlow.txt</code> could be downloaded from this <a href="https://github.com/jorditorresBCN/CC-MEI-2018">GitHub</a>) and outputs the 10 most common words in the book.</p>
+
+                    
+                    <h5><strong class="autotask">task</strong>: Update the docker image, create a new container and run Jupyter Notebook</h5>
+                    
+
+                    <pre><code class="bash">#update image
+docker pull jorditorresbcn/dl
+#Create a container
+docker run -it -p 8888:8888  jorditorresbcn/dl:latest
+#Clone the course repository
+git clone https://github.com/jorditorresBCN/CC-MEI-2018.git
+cd CC-MEI-2018
+#Ignore the error-> No web browser found: could not locate runnable browser.
+jupyter notebook --ip=0.0.0.0 --allow-root</code></pre>
+
+                    <p>If you close the container and you need to re-open it, run:</p>
+
+                    <pre><code class="bash">docker ps -a
+docker start -i YOUR_CONTAINER_ID</code></pre>
+
+                    <p>On your computer, open your browser and go to <a href="http://localhost:8888" target="_blank">http://localhost:8888</a>,
+                        the password is <strong>aidl</strong>.</p>
+
+                    <p>If you are on windows and you are experiencing connectivity issues, please check <a
+                            href="https://github.com/jorditorresBCN/dlaimet/blob/master/windows_proxy.md"
+                            target="_blank">THIS</a>.</p>
+
+                    <h5><strong class="autotask">task</strong>: On your browser,
+                        create a new notebook. Run the following code:
+                    </h5>
+
+                    <pre><code class="python">import nltk
+nltk.download('punkt') 
+import string
+
+from collections import Counter
+
+def get_tokens():
+   with open('FirstContactWithTensorFlow.txt', 'r') as tf:
+    text = tf.read()
+    tokens = nltk.word_tokenize(text)
+    return tokens
+
+tokens = get_tokens()
+count = Counter(tokens)
+print(count.most_common(10))</code></pre>
+
+                    <h5><strong class="autotask">task</strong>: Create a notebook with the name <code>Lab2.WordCountWithNLTK.ipynb</code>, that computes and prints the 10 most common words in the book.
+                    </h5>
+
+                    <h5><strong class="autotask">task</strong>: Add a new code cell into the same notebook with the code that computes and prints the total number of word of this book.
+                    </h5>
+
+                    <h5><strong class="autotask">task</strong>: We can see that punctiation are many of the most common words. We can remove the punctuation using the character deletion step of translate method as:
+                    </h5>
+                    <pre><code class="python">lowers = text.lower()
+no_punctuation = lowers.translate(None, string.punctuation)
+tokens = nltk.word_tokenize(no_punctuation)</code></pre>
+                    <p>Add a new code cell to the same notebook with the code (and the comments with markdown cells if you consider interesting) that computes and prints the 10 most common words without punctuation characters.</p>
+
+                    <h5><strong class="autotask">task</strong>: Is not "Tensorflow" the most commond word? Why? What are Stop Words? Include your answer in a markdown cells in the same notebook.
+                    </h5>
+
+                    <p>When we are working with text mining applications, we often hear of the term “Stop Word Removal". We can do it using the same <code>nltk</code> package:</p>
+                    <pre><code class="python">from nltk.corpus import stopwords
+tokens = get_tokens()
+filtered = [w for w in tokens if not w in stopwords.words('english')]
+count = Counter(filtered)</code></pre>
+                    <p>Add a new code cell to the same notebook with the code (and the comments with markdown cells if you consider interesting) that computes and prints the 10 most common word after removing the stop words. Now it make more sense, right? "TensorFlow" is the most common word!</p>
+
+                </div>
+            </div>
+
+             <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Lab tasks: Getting Started with <code>tweepy</code>  </h3>
+                </div>
+                <div class="panel-body">
+                    <p>In these tasks we will use <code>tweepy</code> package as a tool to access Twitter data in a fairly easy way with Python. There are different types of data we can collect, however we will focus on the “tweet” object.</p>
+
+                    <p>As a homework we already register Our App on Twitter in order to set up our project to access Twitter data. However, the Twitter API limits access to applications. You can find more detail in <a href="https://dev.twitter.com/rest/public/rate-limiting" target="_blank">the official documentation</a>. It's also important to consider that <a href="https://dev.twitter.com/rest/public/rate-limiting" target="_blank">different APIs have different rate limits</a>. The implications of hitting the API limits is that Twitter will return an error message rather than the data we are asking for. Moreover, if we continue performing more requests to the API, the time required to obtain regular access again will increase as Twitter could flag us as potential abusers. If our application needs many API requests we can use the <code>time</code> module (<code>time.sleep()</code> function).</p>
+
+                    <p>Another important thing before to start is to know that we have two classes of API: <strong>REST APIs</strong> and <strong>Streaming API</strong>. All the REST APIs only allow you to go back in time (tweets that have already been published). Often these APIs limit the amount of tweets you can retrieve, not just in terms of rate limits as we mentioned, but also in terms of time span. In fact, it's usually possible to go back in time up to approximately one week. Also another aspect to consider about the REST API is that they are not guaranteed to provide all the tweets published on Twitter.</p>
+
+                    <p>On the other hand, the Streaming API looks into the future, we can retrieve all the tweets that match our filter criteria, as they are published. The Streaming API is useful when we want to filter a particular keyword and download a massive amount of tweets about it, While the REST APIs are useful when we want to search for tweets authored by a specific user or we want to access our own timeline.</p>
+
+                    <h5><strong class="autotask">task</strong>: Tweepy</h5>
+
+                    <p>In order to interact with the Twitter APIs, we need a Python client that implements the different calls to the API itself. There are several options as we can see from the <a href="https://dev.twitter.com/resources/twitter-libraries" target="_blank">official documentation</a>. We will chose for this lab <a href="http://tweepy.readthedocs.io/en/v3.5.0/" target="_blank">Tweepy</a>. The easiest way to install the latest version is by using pip/easy_install to pull it from <a href="https://pypi.python.org/pypi" target="_blank">PyPI</a> to your local directory:</p>
+
+                    <pre><code class="bash">#Press CTRL + C to stop Jupyter
+pip install tweepy</code></pre>
+
+
+                    <p>Restart the Jupyter Notebook and create a notebook with the name <code>Lab2.TweepyAPI.ipynb</code> to keep track of all your work.</p>
+
+                    <p>In order to authorise our app to access Twitter on our behalf, we need to use the OAuth interface:</p>
+
+                    <pre><code class="python">import tweepy
+from tweepy import OAuthHandler
+ 
+consumer_key = 'YOUR-CONSUMER-KEY'
+consumer_secret = 'YOUR-CONSUMER-SECRET'
+access_token = 'YOUR-ACCESS-TOKEN'
+access_secret = 'YOUR-ACCESS-SECRET'
+
+auth = OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_secret)
+ 
+api = tweepy.API(auth)</code></pre>
+
+                <p>The <code>api</code> variable is now our entry point for most of the operations with Twitter.</p>
+
+                <p>Tweepy provides access to the well documented Twitter API. With tweepy, it's possible to get any object and use any method that the official Twitter API offers. For example, a User object has its documentation at <a href="https://dev.twitter.com/docs/platform-objects/users" target="_blank">https://dev.twitter.com/docs/platform-objects/users</a> and following those guidelines, tweepy can get the appropriate information.</p>
+
+                <p>Main Model classes in the Twitter API are: <code>Tweets</code>, <code>Users</code>, <code>Entities</code> and <code>Places</code>.</p>
+
+                <p>In order to be sure that everything is correctly installed print the main information of your Twitter account. After create the user object, the <code>me()</code> method returns the user whose authentication keys were used:</p>
+<pre><code class="python">user = api.me()
+ 
+print('Name: ' + user.name)
+print('Location: ' + user.location)
+print('Friends: ' + str(user.followers_count))
+print('Created: ' + str(user.created_at))
+print('Description: ' + str(user.description))</code></pre>
+                <p>Is the data printed correctly? Is it yours?</p>
+
+                <h5><strong class="autotask">task</strong>: Accessing Tweets</h5>
+                <p>Tweepy provides the convenient Cursor interface to iterate through different types of objects. For example, we can read our own Twitter home timeline with (we are using 1 to limit the number of tweets we are reading and only reading the text of the tweet):</p>
+
+                <pre><code class="python">for status in tweepy.Cursor(api.home_timeline).items(1):
+    print(status.text) </code></pre>
+
+                <p>The status variable is an instance of the Status() class, a nice wrapper to access the data. The JSON response from the Twitter API is available in the attribute _json (with a leading underscore), which is not the raw JSON string, but a dictionary.</p>
+
+                <pre><code class="python">import json
+
+for status in tweepy.Cursor(api.home_timeline).items(1):
+    print(json.dumps(status._json, indent=2))</code></pre>
+
+                <p>What if we want to have a list of 10 of our friends?</p>
+
+                <pre><code class="python">for friend in tweepy.Cursor(api.friends).items(1):
+    print(json.dumps(friend._json, indent=2))</code></pre>
+
+                <p>And how about a list of some of our tweets?</p>
+
+                <pre><code class="python">for tweet in tweepy.Cursor(api.user_timeline).items(1):
+    print(json.dumps(tweet._json, indent=2))</code></pre>
+
+    <p>As a conclusion, you can notice that with <code>tweepy</code> we can easily collect all the information and store them in the original JSON format, fairly easy to convert into different data models (many storage systems provide import feature).</p>
+<p>Use the previous API presented for obtaining information about your tweets.  Keep track of your executions and comments in the   <code>Lab2.TweepyAPI.ipynb</code> notebook.</p>
+
+                <h5><strong class="autotask">task</strong>: Tweet pre-processing</h5>
+
+                <p>In these tasks we’ll enter in more detail to the overall structure of a tweet and discuss how to pre-process its text before we can get into some more interesting analysis in the next Lab. In particular, we will seen how tokenisation, despite being a well-understood problem, can get tricky with Twitter data. After that we’ll discuss the analysis of term frequencies to extract meaningful terms from our tweets.</p>
+                <p><a name="user-content-preproc">The code used in this Lab is using part of the work done by </a><a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/" rel="nofollow">Marco Bonzanini</a>). As Marco indicates, it is far from perfect but it’s a good starting point to become aware of the complexity of the problem, and fairly easy to extend.</p>
+                <p>Let’s have a look at the structure of the previous tweet that you printed.
+                The main attributes are the following:</p>
+                <ul>
+                <li>text: the text of the tweet itself</li>
+                <li>created_at: the date of creation</li>
+                <li>favorite_count, retweet_count: the number of favourites and retweets</li>
+                <li>favorited, retweeted: boolean stating whether the authenticated user (you) have favourited or retweeted this tweet</li>
+                <li>lang: acronym for the language (e.g. “en” for english)</li>
+                <li>id: the tweet identifier</li>
+                <li>place, coordinates, geo: geo-location information if available</li>
+                <li>user: the author’s full profile</li>
+                <li>entities: list of entities like URLs, @-mentions, hashtags and symbols</li>
+                <li>in_reply_to_user_id: user identifier if the tweet is a reply to a specific user</li>
+                <li>in_reply_to_status_id: status identifier id the tweet is a reply to a specific status</li>
+                <li>_json: This is a dictionary with the JSON response of the status</li>
+                <li>author: The tweet author</li>
+                </ul>
+                <p>As you can see there is a lot of information we can play with. All the *_id fields also have a *_id_str counterpart, where the same information is stored as a string rather than a big int (to avoid overflow problems).</p>
+                <p>We will focus our task looking for the text of a tweet, breaking it down into words. While tokenisation is a well understood problem with several out-of-the-box solutions from popular libraries, Twitter data pose some challenges because of the nature of the language.
+                Let’s see the example using the NLTK package previously used to tokenise a fictitious tweet:</p>
+                <pre><code class="python">from nltk.tokenize import word_tokenize
+
+                tweet = 'RT @JordiTorresBCN: just an example! :D http://JordiTorres.Barcelona #masterMEI'
+
+                print(word_tokenize(tweet))
+                </code></pre>    
+
+                <p>You will notice some peculiarities of twitter that are not captured by a general-purpose English tokeniser like the one from NLTK: @-mentions, emoticons, URLs and #hash-tags are not recognised as single tokens. Right?</p>
+                <p>Using some code borrowed from <a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/" rel="nofollow">Marco Bonzanini</a> we could consider these aspects of the language (A former student, <a href="https://www.linkedin.com/in/cedricbhihe/" rel="nofollow">Cédric Bhihe</a>, suggested <a href="https://github.com/jorditorresBCN/Assignments-2017/blob/master/CedricTokenizer.py">this alternative code</a>).</p>
+
+                <pre><code class="python">import re
+ 
+emoticons_str = r"""
+    (?:
+        [:=;] # Eyes
+        [oO\-]? # Nose (optional)
+        [D\)\]\(\]/\\OpP] # Mouth
+    )"""
+ 
+regex_str = [
+    emoticons_str,
+    r'<[^>]+>', # HTML tags
+    r'(?:@[\w_]+)', # @-mentions
+    r"(?:\#+[\w_]+[\w\'_\-]*[\w_]+)", # hash-tags
+    r'http[s]?://(?:[a-z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-f][0-9a-f]))+', # URLs
+ 
+    r'(?:(?:\d+,?)+(?:\.?\d+)?)', # numbers
+    r"(?:[a-z][a-z'\-_]+[a-z])", # words with - and '
+    r'(?:[\w_]+)', # other words
+    r'(?:\S)' # anything else
+]
+    
+tokens_re = re.compile(r'('+'|'.join(regex_str)+')', re.VERBOSE | re.IGNORECASE)
+emoticon_re = re.compile(r'^'+emoticons_str+'$', re.VERBOSE | re.IGNORECASE)
+ 
+def tokenize(s):
+    return tokens_re.findall(s)
+ 
+def preprocess(s, lowercase=False):
+    tokens = tokenize(s)
+    if lowercase:
+        tokens = [token if emoticon_re.search(token) else token.lower() for token in tokens]
+    return tokens
+ 
+tweet = 'RT @JordiTorresBCN: just an example! :D http://JordiTorres.Barcelona #masterMEI'
+print(preprocess(tweet))
+                </code></pre> 
+
+                <p>As you can see, @-mentions, URLs and #hash-tags are now preserved as individual tokens. This tokeniser gives you the general idea of how you can do it for twitter text based on regular expressions (regexp), which is a common choice for this type of problem.</p>
+                <p>With the previous basic tokenizer code, some particular types of tokens will not be captured, and will be probably broken into several tokens. To overcome this problem you can improve the regular expressions, or employ more sophisticated techniques like <a href="https://en.wikipedia.org/wiki/Named-entity_recognition" rel="nofollow"><em>Named Entity Recognition</em></a>.</p>
+                <p>In this example, the regular expressions are compiled with the flags re.VERBOSE, to allow spaces in the regexp to be ignored (see the multi-line emoticons regexp), and re.IGNORECASE to catch both upper and lowercases. The tokenize() function simply catches all the tokens in a string and returns them as a list. This function is used within preprocess(), which is used as a pre-processing chain: in this case we simply add a lowercasing feature for all the tokens that are not emoticons (e.g. :D doesn’t become :d).</p>
+                <p>Keep track of your executions with different fictitious tweets and comments in the <code>Lab2.TokenizeTweetText.ipynb</code> notebook.</p>
+                <p>Now, we are ready for next Lab, where we will mining streaming twitter data.</p>
+
+                <h5><strong class="autotask">task</strong>: Streaming API of Twitter</h5>
+
+                <p>In case we want to “keep the connection open”, and gather all the upcoming tweets about a particular event, the <a href="https://dev.twitter.com/streaming/overview" rel="nofollow">Streaming API</a> is what we need.  The Streaming APIs give developers low latency access to Twitter’s global stream of Tweet data. A proper implementation of a streaming client will be pushed messages indicating Tweets and other events have occurred.
+                Connecting to the streaming API requires keeping a persistent HTTP connection open. In many cases this involves thinking about your application differently than if you were interacting with the REST API. Visit the <a href="https://dev.twitter.com/streaming/overview" rel="nofollow">Streaming API</a> for more details about the differences between Streaming and REST. The Streaming API is one of the favorite ways of getting a massive amount of data without exceeding the rate limits. If your intention is to conduct singular searches, read user profile information, or post Tweets, consider using the REST APIs instead.</p>
+
+                <p>We need to extend the <code>StreamListener()</code> class to customise the way we process the incoming data. We will base our explanation with a working example (from <a href="https://marcobonzanini.com/2015/03/02/mining-twitter-data-with-python-part-1/" rel="nofollow">Marco Bonzanini</a>) that gathers all the new tweets with the "ArtificialIntelligence" content:</p>
+                <pre><code class="python">import tweepy
+from tweepy import OAuthHandler
+
+consumer_key = 'YOUR-CONSUMER-KEY'
+consumer_secret = 'YOUR-CONSUMER-SECRET'
+access_token = 'YOUR-ACCESS-TOKEN'
+access_secret = 'YOUR-ACCESS-SECRET'
+
+auth = OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_secret)
+ 
+api = tweepy.API(auth)
+</code></pre>
+                <pre><code class="twitter">from tweepy import Stream
+from tweepy.streaming import StreamListener
+ 
+class MyListener(StreamListener):
+ 
+    def on_data(self, data):
+        try:
+            with open('ArtificialIntelligenceTweets.json', 'a') as f:
+                f.write(data)
+                return True
+        except BaseException as e:
+            print("Error on_data: %s" % str(e))
+        return True
+ 
+    def on_error(self, status):
+        print(status)
+        return True
+ 
+twitter_stream = Stream(auth, MyListener())
+twitter_stream.filter(track=['ArtificialIntelligence'])
+</code></pre>
+                    <p>The core of the streaming logic is implemented in the <code>CustomListener</code> class, which extends <code>StreamListener</code> and overrides two methods: <code>on_data()</code> and <code>on_error()</code>. These are handlers that are triggered when data is coming through and an error is given by the API. if the error is that we have been rate limited by the Twitter API, we need to wait before we can use the service again. The <code>on_data()</code> method is called when data is coming through. This function simply stores the data as it is received in the &nbsp;<code>ArtificialIntelligenceTweets.json</code> file. Each line of this file will then contain a single tweet, in the JSON format. You can use the command <code>wc -l ArtificialIntelligenceTweets.json</code> from a Unix shell to know how many tweets you’ve gathered.</p>
+                    <p>Before continuing the hands-on, be sure that you generated correctly the <code>.json</code> file. now try with another term of your interest.</p>
+
+                    <h5><strong class="autotask">task</strong>: Analizing tweets - Counting terms</h5>
+
+                    <p>The first exploratory analysis that we can perform is a simple word count. In this way, we can observe what are the terms most commonly used in the data set.</p>
+                    <p>Let's go to read the file with all tweets in order to be sure that everything is fine:</p>
+<pre><code>import json  
+with open('ArtificialIntelligenceTweets.json','r') as json_file:
+         for line in json_file:
+             tweet = json.loads(line)
+             print tweet["text"]
+</code></pre>
+<p>Now we are ready to start to tokenize all these tweets:</p>
+<pre><code>import json
+ 
+with open('ArtificialIntelligenceTweets.json', 'r') as f:
+    line = f.readline() 
+    tweet = json.loads(line) 
+    print(json.dumps(tweet, indent=4)) 
+</code></pre>
+<p>Now, if we want to process all our tweets, previously saved on file:</p>
+<pre><code>with open('ArtificialIntelligenceTweets.json', 'r') as f:
+    import io
+    f=io.open('data/stream_barcelona.json', 'r', encoding='utf8' )
+        for line in f:
+            tweet = json.loads(line)
+            tokens = preprocess(tweet['text'])
+            print(tokens)
+</code></pre>
+<p>Remember that <code>preprocess</code> have been defined in the previous Lab in order to capture Twitter-specific aspects of the text, such as #hashtags, @-mentions and URLs.:</p>
+<pre><code>import re
+ 
+emoticons_str = r"""
+    (?:
+        [:=;] # Eyes
+        [oO\-]? # Nose (optional)
+        [D\)\]\(\]/\\OpP] # Mouth
+    )"""
+ 
+regex_str = [
+    emoticons_str,
+    r'&lt;[^&gt;]+&gt;', # HTML tags
+    r'(?:@[\w_]+)', # @-mentions
+    r"(?:\#+[\w_]+[\w\'_\-]*[\w_]+)", # hash-tags
+    r'http[s]?://(?:[a-z]|[0-9]|[$-_@.&amp;+]|[!*\(\),]|(?:%[0-9a-f][0-9a-f]))+', # URLs
+ 
+    r'(?:(?:\d+,?)+(?:\.?\d+)?)', # numbers
+    r"(?:[a-z][a-z'\-_]+[a-z])", # words with - and '
+    r'(?:[\w_]+)', # other words
+    r'(?:\S)' # anything else
+]
+    
+tokens_re = re.compile(r'('+'|'.join(regex_str)+')', re.VERBOSE | re.IGNORECASE)
+emoticon_re = re.compile(r'^'+emoticons_str+'$', re.VERBOSE | re.IGNORECASE)
+ 
+def tokenize(s):
+    return tokens_re.findall(s)
+ 
+def preprocess(s, lowercase=False):
+    tokens = tokenize(s)
+    if lowercase:
+        tokens = [token if emoticon_re.search(token) else token.lower() for token in tokens]
+    return tokens
+</code></pre>
+                    <p>In order to keep track of the frequencies while we are processing the tweets, we can use <code>collections.Counter()</code> which internally is a dictionary (term: count) with some useful methods like <code>most_common()</code>:</p>
+<pre><code>import operator 
+import json
+from collections import Counter
+
+fname = 'ArtificialIntelligenceTweets.json'
+with open(fname, 'r') as f:
+   count_all = Counter()
+   for line in f:
+       tweet = json.loads(line)
+       # Create a list with all the terms
+       terms_all = [term for term in preprocess(tweet['text'])]
+       # Update the counter
+       count_all.update(terms_all)
+   print(count_all.most_common(5))
+   
+</code></pre>
+                    <p>As you can see, the above code produces words (or tokens) that are stop words. Given the nature of our data and our tokenisation, we should also be careful with all the punctuation marks and with terms like <code>RT</code> (used for re-tweets) and <code>via</code> (used to mention the original author), which are not in the default stop-word list.</p>
+<pre><code>import nltk
+from nltk.corpus import stopwords
+nltk.download("stopwords") # download the stopword corpus on our computer
+import string
+ 
+punctuation = list(string.punctuation)
+stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT']
+
+</code></pre>
+                <p>We can now substitute the variable <code>terms_all</code> in the first example with something like:</p>
+<pre><code>import operator 
+import json
+from collections import Counter
+ 
+fname = 'ArtificialIntelligenceTweets.json'
+with open(fname, 'r') as f:
+    count_all = Counter()
+    for line in f:
+        tweet = json.loads(line)
+        # Create a list with all the terms
+        terms_stop = [term for term in preprocess(tweet['text']) if term not in stop]
+        count_all.update(terms_stop)
+    for word, index in count_all.most_common(5):
+        print '%s : %s' % (word, index)
+</code></pre>
+<p>Besides stop-word removal, we can further customise the list of terms/tokens we are interested in.
+For instance, if we want to count <em>hastags</em> only:</p>
+<pre><code>terms_hash = [term for term in preprocess(tweet['text']) 
+              if term.startswith('#')]
+</code></pre>
+<p>In the case we are interested to count terms only, no hashtags and no mentions:</p>
+<pre><code>terms_only = [term for term in preprocess(tweet['text']) 
+              if term not in stop and
+              not term.startswith(('#', '@'))] 
+</code></pre>
+<blockquote>
+                    <p>Mind the double brackets (( )) <code>startswith()</code> takes a tuple (not a list) if  we pass a list of inputs.</p>
+                    </blockquote>
+                    <p>Although we do not consider it in this Lab, there are other functions from NLTK very useful. For instance, to put things in context, some analysis considers sequences of two terms. In this case we can use <code>bigrams()</code> function that will take a list of tokens and produce a list of tuples using adjacent tokens.</p>
+                    <p>Do the same analysis with the <code>.json</code> file generated by you in the previous task.</p>
+
+
+
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Case study and Student proposal</h3>
+                </div>
+                <div class="panel-body">
+                    <h5><strong class="autotask">task</strong>: Case study</h5>
+                    <p>At <a href="https://raco.fib.upc.edu/home/portada/jordi.torres" rel="nofollow">Racó (course intranet)</a>" you can find a small dataset as a example (please do not distribute due to Twitter licensing). This dataset contains 1060 tweets downloaded from around 18:05 to 18:15  on January 13. We used "Barcelona" as a <code>track</code> parameter at <code>twitter_stream.filter</code> function.</p>
+                    <p>We would like to get a rough idea of what was telling people about Barcelona. For example, we can count and sort the most commonly used hastags:</p>
+<pre><code class="python">import operator 
+import json
+from collections import Counter
+ 
+fname = 'Lab2.CaseStudy.json'
+with open(fname, 'r') as f:
+    count_all = Counter()
+    for line in f:
+        tweet = json.loads(line)
+        # Create a list with all the terms
+        terms_hash = [term for term in preprocess(tweet['text']) if term.startswith('#') and term not in stop]        
+        count_all.update(terms_hash)
+# Print the first 10 most frequent words
+print(count_all.most_common(15))
+
+</code></pre>
+<p>The output is:
+<code>[(u'#Barcelona', 68), (u'#Messi', 30), (u'#FCBLive', 17), (u'#UDLasPalmas', 13), (u'#VamosUD', 13), (u'#barcelona', 10), (u'#CopaDelRey', 8), (u'#empleo', 6), (u'#BCN', 6), (u'#riesgoimpago', 6), (u'#news', 5), (u'#LaLiga', 5), (u'#SportsCenter', 4), (u'#LionelMessi', 4), (u'#Informe', 4)]</code></p>
+                    <p>In order to see a more visual description we can plot it. There are different options to create plots in Python using libraries like matplotlib, ggplot, etc. We decided to use matplotlib With the following code</p>
+<pre><code class="python">%matplotlib inline
+import matplotlib as mpl
+mpl.rcParams['figure.figsize'] = (15,10)
+import matplotlib.pyplot as plt
+
+sorted_x, sorted_y = zip(*count_all.most_common(15))
+#print(sorted_x, sorted_y)
+
+plt.bar(range(len(sorted_x)), sorted_y, width=0.75, align='center');
+plt.xticks(range(len(sorted_x)), sorted_x, rotation=80);
+plt.axis('tight'); 
+
+</code></pre>
+                    <p>that uses the function <code>zip()</code>. We obtain the following plot:</p>
+                    <p class="center-image"><a href="https://github.com/jorditorresBCN/Assignments-2017/blob/master/Lab2Plot.png" target="_blank"><img src="https://github.com/jorditorresBCN/Assignments-2017/raw/master/Lab2Plot.png" alt="Lab2Plot" title="lab2Plot" class="" style="max-width:100%;"></a></p>
+                    <p>We can see that people were talking about football, more than other things! And it seems that they were mostly talking about the football <a href="http://www.fcbarcelonanoticias.com/Calendario-y-resultados-liga.php?IDR=184" rel="nofollow">league match that was played the next day</a>.</p>
+                    <p>Create a "matplot" with your dataset generated by you in the previous task.</p>
+
+                    <h5><strong class="autotask">task</strong>: Student proposal</h5>
+
+                    <p>We are asking to the student to create an example that will allow us to find some interesting insight from Twitter, using some realistic data taken by the student. Using what we have learnt in the previous Labs and sections, you can download some data using the streaming API, pre-process the data in JSON format and extract some interesting terms and hashtags from the tweets.</p>
+                    <p>Create a <code>.pynb</code> file with markdown cells describing the program steps and the characteristics of the dataset created (e.g. the time frame for the download, etc.).</p>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Lab report</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Please, follow the
+                        indications of your teacher about how to create your lab report and how to submit it.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</div><!-- /.container -->
+
+
+<script
+        src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script type="application/javascript">
+    hljs.initHighlightingOnLoad();
+    var numlab = 2
+</script>
+<script src="autonum.js"></script>
+<script src="autoload.js"></script>
+
+</body>
+</html>
