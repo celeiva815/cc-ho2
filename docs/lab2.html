@@ -44,7 +44,7 @@ padding-bottom: 20px;"/></div>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title"><span class="autosection">numsection</span> Register Our App on Twitter 
-                        <button class="btn btn-right btn-xs btn-success pull-right" disabled>Do it at home</button>
+                        <button class="btn btn-right btn-xs btn-info pull-right" disabled>Prepare this section before the lab session</button>
                     </h3>  
                 </div>
                 <div class="panel-body">
@@ -194,13 +194,13 @@ auth.set_access_token(access_token, access_secret)
  
 api = tweepy.API(auth)</code></pre>
 
-                <p>The <code>api</code> variable is now our entry point for most of the operations with Twitter.</p>
+                    <p>The <code>api</code> variable is now our entry point for most of the operations with Twitter.</p>
 
-                <p>Tweepy provides access to the well documented Twitter API. With tweepy, it's possible to get any object and use any method that the official Twitter API offers. For example, a User object has its documentation at <a href="https://dev.twitter.com/docs/platform-objects/users" target="_blank">https://dev.twitter.com/docs/platform-objects/users</a> and following those guidelines, tweepy can get the appropriate information.</p>
+                    <p>Tweepy provides access to the well documented Twitter API. With tweepy, it's possible to get any object and use any method that the official Twitter API offers. For example, a User object has its documentation at <a href="https://dev.twitter.com/docs/platform-objects/users" target="_blank">https://dev.twitter.com/docs/platform-objects/users</a> and following those guidelines, tweepy can get the appropriate information.</p>
 
-                <p>Main Model classes in the Twitter API are: <code>Tweets</code>, <code>Users</code>, <code>Entities</code> and <code>Places</code>.</p>
+                    <p>Main Model classes in the Twitter API are: <code>Tweets</code>, <code>Users</code>, <code>Entities</code> and <code>Places</code>.</p>
 
-                <p>In order to be sure that everything is correctly installed print the main information of your Twitter account. After create the user object, the <code>me()</code> method returns the user whose authentication keys were used:</p>
+                    <p>In order to be sure that everything is correctly installed print the main information of your Twitter account. After create the user object, the <code>me()</code> method returns the user whose authentication keys were used:</p>
 <pre><code class="python">user = api.me()
  
 print('Name: ' + user.name)
@@ -365,7 +365,7 @@ twitter_stream.filter(track=['ArtificialIntelligence'])
 with open('ArtificialIntelligenceTweets.json','r') as json_file:
          for line in json_file:
              tweet = json.loads(line)
-             print tweet["text"]
+             print(tweet["text"])
 </code></pre>
 <p>Now we are ready to start to tokenize all these tweets:</p>
 <pre><code>import json

@@ -33,7 +33,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <h2 class="page-header">9. First Steps with Keras
+            <h2 class="page-header">4. First Steps with Keras
             </h2>
         </div>
     </div>
@@ -48,6 +48,49 @@ padding-bottom: 20px;"/></div>
 
     <div class="row">
         <div class="col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> MNIST Dataset</h3>
+                </div>
+                <div class="panel-body">
+                    <p>The MNIST data-set is composed by a set of black and white images containing hand-written digits,
+                        containing more than 60.000 examples for training a model, and 10.000 for testing it. The MNIST
+                        data-set can be found at the MNIST database. This data-set is ideal for most of the people who
+                        begin with pattern recognition on real examples without having to spend time on data
+                        pre-processing or formatting, two very important steps when dealing with images but expensive in
+                        time.
+                    </p>
+                    <p>
+                        The black and white images (bilevel) have been normalized into 20×20 pixel images, preserving
+                        the aspect ratio. For this case, we notice that the images contain gray pixels as a result of
+                        the anti-aliasing used in the normalization algorithm (reducing the resolution of all the images
+                        to one of the lowest levels). After that, the images are centered in 28×28 pixel frames by
+                        computing the mass center and moving it into the center of the frame. The images are like the
+                        ones shown here:
+                    </p>
+                    <div class="center-image">
+                        <img src="img/mnist1.png"
+                             style="height: 100px"/>
+                    </div>
+
+                    <p>
+                        The images are represented as a numerical matrix. For example, one of the images of number 1 can
+                        be represented as:
+                    </p>
+
+                    <div class="center-image">
+                        <img src="img/mnist2.png"
+                             style="height: 275px"/>
+                    </div>
+
+                    <p>
+                        Where each position indicates the level of lackness of each pixel between 0 and 1. This matrix
+                        can also be transformed in a bunch of points in a vectorial space of 784 dimensions ( 28×28 =
+                        784 numbers).
+                    </p>
+                </div>
+            </div>
 
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -227,7 +270,7 @@ Starting TensorBoard Starting TensorBoard 0.1.6 at http://localhost:6006
         crossorigin="anonymous"></script>
 <script type="application/javascript">
     hljs.initHighlightingOnLoad();
-    var numlab = 9
+    var numlab = 4
 </script>
 <script src="autonum.js"></script>
 <script src="autoload.js"></script>

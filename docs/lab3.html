@@ -1,0 +1,242 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>CC-MEI-2018</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="labs.css" >
+</head>
+<body>
+
+<div id="menu">
+
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="page-header">3. Interacting with users and services in the Cloud
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pull-right">
+                <img src="https://www.lomasnuevo.net/wp-contentupl/2016/11/googlecloud.png" class="img" style="height: 200px;
+padding-bottom: 20px;"/></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Prepare for the lab</h3>
+                </div>
+                <div class="panel-body">
+                    <p><strong class="autotask">task</strong>: Prepare a Docker container for this lab</p>
+                    <pre><code class="bash">#update image
+docker pull jorditorresbcn/dl
+#Create a container
+docker run -it -p 8888:8888 -p 8954:8954 jorditorresbcn/dl:latest
+#Ignore the error-> No web browser found: could not locate runnable browser.
+jupyter notebook --ip=0.0.0.0 --allow-root</code></pre>
+
+                    <p>If you close the container and you need to re-open it, run:</p>
+
+                    <pre><code class="bash">docker ps -a
+docker start -i YOUR_CONTAINER_ID</code></pre>
+
+                    <p>On your computer, open your browser and go to <a href="http://localhost:8888" target="_blank">http://localhost:8888</a>,the password is <strong>aidl</strong>.</p>
+
+                    <p>If you are on windows and you are experiencing connectivity issues, please check <a
+                            href="https://github.com/jorditorresBCN/dlaimet/blob/master/windows_proxy.md"
+                            target="_blank">THIS</a>.</p>
+                </div>
+            </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> How to provide your services through an API?</h3>
+                </div>
+                <div class="panel-body">
+                    <p>As we show, we can plots in Python using libraries like matplotlib.  However, how to provide our results through an API to consumers?
+                    If you want to use python to build a prototype server (of your service) and want to provide web-base API with minimal efforts, you can just use python <code>SimpleHTTPServer</code> and <code>SocketServer</code> packages.</p>
+
+                    <p><strong class="autotask">task</strong>: Create a new notebook with the following code</p>
+
+                                        <pre><code class="python">import http.server as SimpleHTTPServer
+import socketserver as SocketServer
+
+class MyRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == '/':
+            self.path = '/OurService.html'
+        return SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
+
+Handler = MyRequestHandler
+server = SocketServer.TCPServer(('0.0.0.0', 8954), Handler)
+
+print('Started my REST API on port 8954') 
+server.serve_forever()
+</code></pre>
+                
+                </a><p>Now you can open your browser at <a target="_blank" href="http://localhost:8954" rel="nofollow">http://localhost:8954</a> and obtain acces to <code>OurService.html</code>.</p>
+                <p><strong class="autotask">task</strong>: Generate <code>OurService.html</code></p>
+                <p>The question now is how we can generate our service <code>OurService.html</code> in order to be provided by the server. Imagine that we want to provide the plot obtained in the previous Lab. We have different options, however I suggest to use <a href="https://d3js.org" rel="nofollow">D3.js</a>.</p>
+                <p>Because D3 plays well with web standards like CSS and SVG, and allows to create some wonderful interactive visualisations in the web, many of my data science colleagues think that it is one of the coolest libraries for data visualisation.</p>
+                <p><a href="https://d3js.org" rel="nofollow">D3.js</a> is, as the name suggests, based on Javascript. We will present a simple option to support data D3 visualisation with Python using the Python library <a href="https://github.com/wrobstory/vincent">Vincent</a>, that bridges the gap between a Python back-end and a front-end that supports D3.js visualisation. Vincent takes our data in Python format and translates them into <a href="https://github.com/trifacta/vega">Vega</a>, a JSON-based visualisation grammar that will be used on top of D3.</p>
+                <p>Firstly, we need to install Vincent:</p>
+                <pre><code class="bash">#CTRL + C to close Jupyter
+pip install vincent</code></pre>
+                <p>Using the list of most frequent hashtags from the case study data set we used in the previous Lab, we want to plot their frequencies:</p>
+                <pre><code class="python">import vincent
+ 
+word_freq = count_all.most_common(15)
+labels, freq = zip(*word_freq)
+data = {'data': freq, 'x': labels}
+bar = vincent.Bar(data, iter_idx='x')
+bar.to_json('term_freq.json')
+
+</code></pre>
+
+                    <p>At this point, the file <code>term_freq.json</code> will contain a description of the plot that can be handed over to D3.js and Vega. A simple template (taken from <a href="https://github.com/wrobstory/vincent">Vincent resources</a>) to visualise the plot:</p>
+
+                    <p>Save the above HTML page as <code>OurService.html</code>.
+                    Now you can open your browser at <a href="http://localhost:8954" rel="nofollow">http://localhost:8954</a> and obtain acces to <code>OurService.html</code>.</p>
+                    <p>With this procedure, we can plot many different types of charts with <code>Vincent</code>. <a href="http://vincent.readthedocs.io/en/latest/" rel="nofollow">Explore yourself</a>. If you are interested in building a real server, there are many good Python frameworks for building a RESTful API as <a href="http://flask.pocoo.org/" rel="nofollow">Flask</a>, <a href="http://falconframework.org/" rel="nofollow">Falcon</a> and <a href="http://bottlepy.org/docs/dev/index.html" rel="nofollow">Bottle</a>.</p>
+                    <p>However, if you need to deploy your service in the Cloud, <a href="https://cloudacademy.com/amazon-web-services/understanding-aws-lambda-course/" rel="nofollow">AWS Lambda</a> allows you to not deal with over/under capacity, deployments, scaling and fault tolerance, OS or language updates, metrics, and logging. AWS Lambda introduced a new serverless world. AWS community started working on a complete solution to develop AWS-powered microservices or backends for web, mobile, and IoT applications. The migration required facilitation because of the building-block nature of AWS Lambda and its complex symbiosis with Amazon API Gateway. One example is <a href="https://serverless.com" rel="nofollow">Serverless Framework</a> that allows to build auto-scaling, pay-per-execution, event-driven apps on AWS Lambda. <strong>(optional project)</strong></p>
+                    <p>Before starting the next task, create a <code>.pynb</code> file that demonstrates that you followed this example.</p>
+
+                </div>
+            </div>
+
+            
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Lab Tasks</h3>
+                </div>
+                <div class="panel-body">
+                    <strong class="autotask">task</strong>: Install Docker for your platform
+                        <ul>
+                            <li>
+                                Windows 10 Pro/Enterprise, MacOS, Linux: <a
+                                    href="https://store.docker.com/search?type=edition&offering=community"
+                                    target="_blank">Link to Docker Store</a>.
+                            </li>
+                            <li>
+                                Other Windows versions: <a target="_blank"
+                                                           href="https://docs.docker.com/toolbox/toolbox_install_windows/">Link
+                                to Docker Toolbox</a>.
+                            </li>
+                        </ul>
+                    
+                    <strong class="autotask">task</strong>: Download and run the Docker image. Open a terminal
+                        (Mac/Linux), Open cmd or powershell (Windows 10 Pro) or Open the Docker CLI (Other windows
+                        versions) and then run:
+                    
+
+                    <pre><code class="bash">#Download the docker image
+docker pull jorditorresbcn/dl</code></pre>
+
+                    <p>MacOS and Windows users should have the docker program open in order to run docker commands. This
+                        docker image is based on Ubuntu 16.04 with the following software stack: Python3.5, Keras,
+                        TensorFlow, nano, htop, iPython, Jupyter, matplotlib and git.</p>
+
+                    <h5><strong class="autotask">task</strong>: Run the docker image for first time. Open a terminal on
+                        Linux/Mac, PowerShell on Windows 10 or the Docker CLI on other Windows versions and then run:
+                    </h5>
+
+                    <pre><code class="bash">#Create a container
+docker run -it -p 8888:8888  jorditorresbcn/dl:latest</code></pre>
+
+                    <p>If you close the container and you need to re-open it, run:</p>
+
+                    <pre><code class="bash">docker ps -a
+docker start -i YOUR_CONTAINER_ID</code></pre>
+
+                    <h5><strong class="autotask">task</strong>: Run the Jupyer Notebook server:
+                    </h5>
+
+                    <pre><code class="bash">#Inside the container
+#Ignore the error-> No web browser found: could not locate runnable browser.
+jupyter notebook --ip=0.0.0.0 --allow-root</code></pre>
+
+                    <p>On your computer, open your browser and go to <a href="http://localhost:8888" target="_blank">http://localhost:8888</a>,
+                        the password is <strong>aidl</strong>.</p>
+
+                    <p>If you are on windows and you are experiencing connectivity issues, please check <a
+                            href="https://github.com/jorditorresBCN/dlaimet/blob/master/windows_proxy.md"
+                            target="_blank">THIS</a>.</p>
+
+                    <h5><strong class="autotask">task</strong>: On your browser,
+                        create a new notebook. Run the following code:
+                    </h5>
+
+                    <pre><code class="python">%matplotlib inline
+from matplotlib import pyplot as plt
+import numpy as np</code></pre>
+
+                    <p>Create 50 random points:</p>
+
+                    <pre><code class="python solarized-dark">N = 50
+x = np.random.rand(N)
+y = np.random.rand(N)</code></pre>
+
+                    <p>Plot the points:</p>
+
+                    <pre><code class="python">plt.scatter(x, y)
+plt.show()</code></pre>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Lab report</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Please, follow the
+                        indications of your teacher about how to create your lab report and how to submit it.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</div><!-- /.container -->
+
+
+<script
+        src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<script type="application/javascript">
+    hljs.initHighlightingOnLoad();
+    var numlab = 3
+</script>
+<script src="autonum.js"></script>
+<script src="autoload.js"></script>
+
+</body>
+</html>
