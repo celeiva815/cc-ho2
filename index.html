@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+
+    <title>Your Twitter Account</title>
+
+
+    <style>
+        #map {
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1><img src="https://www.sketchappsources.com/resources/source-image/twitterlogo_1x.png"
+                     style="height: 72px"/> Your Twitter Account</h1>
+            <h3 id="screen_name"> Loading info...</h3>
+            <div class="float-right"><img id="profile_image" src="#"></div>
+            <ul>
+                <li id="name"></li>
+                <li id="description"></li>
+                <li id="followers"></li>
+                <li id="location"></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Frequencies</h3>
+            <ul id="words_data">
+            </ul>
+
+            <div id="chart_div"></div>
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="col-md-12">
+            <h3>Map</h3>
+
+            <div id="map"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages': ['corechart']});
+    // Callback that creates and populates a data table,
+    // instantiates the pie chart, passes in the data and
+    // draws it.
+    function drawChart(data_to_plot) {
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Hashtag');
+        data.addColumn('number', 'Number');
+        data.addRows(data_to_plot);
+        // Set chart options
+        var options = {
+            'title': 'Hashtag number',
+            'width': 700,
+            'height': 550
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+
+    function loadTwitterAccount() {
+        $.get("http://localhost:8954/api/twitter", function (data) {
+            $('#screen_name').html("@" + data.screen_name);
+            $('#name').html(data.name);
+            $('#description').html(data.description);
+            $('#followers').html("Followers: " + data.followers);
+            $('#location').html(data.location);
+            $('#profile_image').attr('src', data.profile_image);
+        });
+    }
+
+    function loadTwitterFreqChart() {
+        $.get("http://localhost:8954/api/twitter/datafrequency", function (data) {
+            $('#file_name').html(data.file_name);
+            drawChart(data.words);
+        });
+    }
+
+    function loadTwitterMap() {
+        var mytiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        });
+        // Initialise an empty map
+        var map = L.map('map');
+        $.get("http://localhost:8954/api/twitter/datamap", function (data) {
+            var myStyle = {
+                radius: 2,
+                fillColor: "red",
+                color: "red",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 1
+            };
+
+            var geojson = L.geoJson(data, {
+                pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, myStyle);
+                }
+            });
+            geojson.addTo(map)
+
+
+        });
+        map.addLayer(mytiles).setView([40.5, 5.0], 5);
+    }
+
+
+    loadTwitterAccount();
+    loadTwitterFreqChart();
+    loadTwitterMap();
+
+</script>
+</body>
+</html>
