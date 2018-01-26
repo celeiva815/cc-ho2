@@ -91,7 +91,6 @@ def process_data_image():
                           'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1941.0 Safari/537.36')]
     urllib.request.install_opener(opener)
     url_image = request.form['url']
-    print(url_image)
     img_path = '/tmp/image'
     urllib.request.urlretrieve(url_image, img_path)
     service = googleapiclient.discovery.build('vision', 'v1')
@@ -110,8 +109,6 @@ def process_data_image():
                 }]
             }]
         })
-        # [END construct_request]
-        # [START parse_response]
         response = service_request.execute()
         for result in response['responses'][0]['labelAnnotations']:
             data.append({'description': result['description'], 'score': result['score']})
