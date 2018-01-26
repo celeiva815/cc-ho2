@@ -24,36 +24,81 @@
 <body>
 
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h1><img src="https://www.sketchappsources.com/resources/source-image/twitterlogo_1x.png"
-                     style="height: 72px"/> Your Twitter Account</h1>
-            <h3 id="screen_name"> Loading info...</h3>
-            <div class="float-right"><img id="profile_image" src="#"></div>
-            <ul>
-                <li id="name"></li>
-                <li id="description"></li>
-                <li id="followers"></li>
-                <li id="location"></li>
-            </ul>
+    <br>
+
+
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12">
+                <h1><img src="https://www.sketchappsources.com/resources/source-image/twitterlogo_1x.png"
+                         style="height: 72px"/> Your Twitter Account
+                    <button class="btn btn-success" onclick="loadTwitterAccount()">Load</button>
+                </h1>
+                <h3 id="screen_name"></h3>
+                <div class="float-right"><img id="profile_image" src="#"></div>
+                <ul>
+                    <li id="name"></li>
+                    <li id="description"></li>
+                    <li id="followers"></li>
+                    <li id="location"></li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <h3>Frequencies</h3>
-            <ul id="words_data">
-            </ul>
 
-            <div id="chart_div"></div>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Frequencies
+                    <button class="btn btn-success" onclick="loadTwitterFreqChart()">Load</button>
+                </h1>
+                <ul id="words_data">
+                </ul>
+
+                <div id="chart_div"></div>
+            </div>
         </div>
     </div>
 
-     <div class="row">
-        <div class="col-md-12">
-            <h3>Map</h3>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Map
+                    <button class="btn btn-success" onclick="loadTwitterMap()">Load</button>
+                </h1>
 
-            <div id="map"></div>
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Cloud Vision </h1>
+                <form id="imageurlform">
+                    <div class="form-group">
+                        <label for="urlcloudvision">Image URL</label>
+                        <input type="text" class="form-control" name="url" id="urlcloudvision"
+                               placeholder="Enter image URL">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button class="btn btn-success" onclick="loadCloudVision()">Load</button>
+
+                <ul id="resultscloudvision">
+
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <img src="" id="imagecloudvision" style="width: 512px"/>
+            </div>
         </div>
     </div>
 </div>
@@ -119,6 +164,7 @@
         // Initialise an empty map
         var map = L.map('map');
         $.get("http://localhost:8954/api/twitter/datamap", function (data) {
+            map.addLayer(mytiles).setView([40.5, 5.0], 5);
             var myStyle = {
                 radius: 2,
                 fillColor: "red",
@@ -134,16 +180,20 @@
                 }
             });
             geojson.addTo(map)
-
-
         });
-        map.addLayer(mytiles).setView([40.5, 5.0], 5);
     }
 
 
-    loadTwitterAccount();
-    loadTwitterFreqChart();
-    loadTwitterMap();
+    function loadCloudVision() {
+        $('#imagecloudvision').attr('src', $('#urlcloudvision').val());
+        $('#resultscloudvision').html("");
+        $.post("http://localhost:8954/api/image", $("#imageurlform").serialize(), function (data) {
+            for(var x=0; x<data.length; x++) {
+                var category = data[x];
+                $('#resultscloudvision').append("<li>"+category.description+" - "+ category.score +"</li>")
+            }
+        });
+    }
 
 </script>
 </body>
