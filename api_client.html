@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
     <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 
-    <title>Your Twitter Account</title>
+    <title>API CLIENT</title>
 
 
     <style>
@@ -116,7 +116,22 @@
 
 <script type="text/javascript">
 
-    // Load the Visualization API and the corechart package.
+    var api_url = "http://localhost:8954";
+
+
+    function loadTwitterAccount() {
+        $.get(api_url+"/api/twitter", function (data) {
+            $('#screen_name').html("@" + data.screen_name);
+            $('#name').html(data.name);
+            $('#description').html(data.description);
+            $('#followers').html("Followers: " + data.followers);
+            $('#location').html(data.location);
+            $('#profile_image').attr('src', data.profile_image);
+        });
+    }
+
+
+     // Load the Visualization API and the corechart package.
     google.charts.load('current', {'packages': ['corechart']});
     // Callback that creates and populates a data table,
     // instantiates the pie chart, passes in the data and
@@ -129,7 +144,7 @@
         data.addRows(data_to_plot);
         // Set chart options
         var options = {
-            'title': 'Hashtag number',
+            'title': 'Hashtag freq',
             'width': 700,
             'height': 550
         };
@@ -139,19 +154,8 @@
         chart.draw(data, options);
     }
 
-    function loadTwitterAccount() {
-        $.get("http://localhost:8954/api/twitter", function (data) {
-            $('#screen_name').html("@" + data.screen_name);
-            $('#name').html(data.name);
-            $('#description').html(data.description);
-            $('#followers').html("Followers: " + data.followers);
-            $('#location').html(data.location);
-            $('#profile_image').attr('src', data.profile_image);
-        });
-    }
-
     function loadTwitterFreqChart() {
-        $.get("http://localhost:8954/api/twitter/datafrequency", function (data) {
+        $.get(api_url+"/api/twitter/datafrequency", function (data) {
             $('#file_name').html(data.file_name);
             drawChart(data.words);
         });
@@ -163,7 +167,7 @@
         });
         // Initialise an empty map
         var map = L.map('map');
-        $.get("http://localhost:8954/api/twitter/datamap", function (data) {
+        $.get(api_url+"/api/twitter/datamap", function (data) {
             map.addLayer(mytiles).setView([40.5, 5.0], 5);
             var myStyle = {
                 radius: 2,
@@ -187,7 +191,7 @@
     function loadCloudVision() {
         $('#imagecloudvision').attr('src', $('#urlcloudvision').val());
         $('#resultscloudvision').html("");
-        $.post("http://localhost:8954/api/image", $("#imageurlform").serialize(), function (data) {
+        $.post(api_url+"/api/image", $("#imageurlform").serialize(), function (data) {
             for(var x=0; x<data.length; x++) {
                 var category = data[x];
                 $('#resultscloudvision').append("<li>"+category.description+" - "+ category.score +"</li>")

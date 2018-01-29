@@ -191,62 +191,32 @@ def process_twitter_data_map():
                         un-compress it.
                     </p>
                     
-                    <strong class="autotask">task</strong>: Download and run the Docker image. Open a terminal
-                        (Mac/Linux), Open cmd or powershell (Windows 10 Pro) or Open the Docker CLI (Other windows
-                        versions) and then run:
-                    
+                    <p><strong class="autotask">task</strong>: Look for the file <code>api_client.html</code> file
+                    and open it with your browser and using a code editor (e.g. Sublime Text). You will see a website
+                    with different sections, each section works with each view that we created before. If you press the load buttons,
+                    a Javascript code will call the API an parse the JSON into HTML. Check if your API is running on Jupyter
+                    and press the load buttons. We used <a href="https://jquery.com/" target="_blank">Jquery</a>
+                        to perform the asynchronous API calls.</p>
 
-                    <pre><code class="bash">#Download the docker image
-docker pull jorditorresbcn/dl</code></pre>
+                    <div class="center-image">
+                        <img src="img/api_client.png"
+                             style="height: 75%"/>
+                    </div>
 
-                    <p>MacOS and Windows users should have the docker program open in order to run docker commands. This
-                        docker image is based on Ubuntu 16.04 with the following software stack: Python3.5, Keras,
-                        TensorFlow, nano, htop, iPython, Jupyter, matplotlib and git.</p>
+                    <p>The following code shows how a simple API call works, it is the call for the first view of the API. The method
+                        <code>loadTwitterAccount</code> is linked to the first load button.</p>
 
-                    <h5><strong class="autotask">task</strong>: Run the docker image for first time. Open a terminal on
-                        Linux/Mac, PowerShell on Windows 10 or the Docker CLI on other Windows versions and then run:
-                    </h5>
-
-                    <pre><code class="bash">#Create a container
-docker run -it -p 8888:8888  jorditorresbcn/dl:latest</code></pre>
-
-                    <p>If you close the container and you need to re-open it, run:</p>
-
-                    <pre><code class="bash">docker ps -a
-docker start -i YOUR_CONTAINER_ID</code></pre>
-
-                    <h5><strong class="autotask">task</strong>: Run the Jupyer Notebook server:
-                    </h5>
-
-                    <pre><code class="bash">#Inside the container
-#Ignore the error-> No web browser found: could not locate runnable browser.
-jupyter notebook --ip=0.0.0.0 --allow-root</code></pre>
-
-                    <p>On your computer, open your browser and go to <a href="http://localhost:8888" target="_blank">http://localhost:8888</a>,
-                        the password is <strong>aidl</strong>.</p>
-
-                    <p>If you are on windows and you are experiencing connectivity issues, please check <a
-                            href="https://github.com/jorditorresBCN/dlaimet/blob/master/windows_proxy.md"
-                            target="_blank">THIS</a>.</p>
-
-                    <h5><strong class="autotask">task</strong>: On your browser,
-                        create a new notebook. Run the following code:
-                    </h5>
-
-                    <pre><code class="python">%matplotlib inline
-from matplotlib import pyplot as plt
-import numpy as np</code></pre>
-
-                    <p>Create 50 random points:</p>
-
-                    <pre><code class="python solarized-dark">N = 50
-x = np.random.rand(N)
-y = np.random.rand(N)</code></pre>
-
-                    <p>Plot the points:</p>
-
-                    <pre><code class="python">plt.scatter(x, y)
-plt.show()</code></pre>
+                    <pre><code class="javascript">function loadTwitterAccount() {
+    $.get(api_url+"/api/twitter", function (data) {
+        $('#screen_name').html("@" + data.screen_name);
+        $('#name').html(data.name);
+        $('#description').html(data.description);
+        $('#followers').html("Followers: " + data.followers);
+        $('#location').html(data.location);
+        $('#profile_image').attr('src', data.profile_image);
+    });
+}
+</code></pre>
 
                 </div>
             </div>
