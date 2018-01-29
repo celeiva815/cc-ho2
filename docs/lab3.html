@@ -51,6 +51,9 @@ padding-bottom: 20px;"/></div>
 docker pull jorditorresbcn/dl
 #Create a container
 docker run -it -p 8888:8888 -p 8954:8954 jorditorresbcn/dl:latest
+#Clone the course repository
+git clone https://github.com/jorditorresBCN/CC-MEI-2018.git
+cd CC-MEI-2018
 #Ignore the error-> No web browser found: could not locate runnable browser.
 jupyter notebook --ip=0.0.0.0 --allow-root</code></pre>
 
@@ -59,7 +62,7 @@ jupyter notebook --ip=0.0.0.0 --allow-root</code></pre>
                     <pre><code class="bash">docker ps -a
 docker start -i YOUR_CONTAINER_ID</code></pre>
 
-                    <p>On your computer, open your browser and go to <a href="http://localhost:8888" target="_blank">http://localhost:8888</a>,the password is <strong>aidl</strong>.</p>
+                    <p>On your computer, open your browser and go to <a href="http://localhost:8888" target="_blank">http://localhost:8888</a>,the password is <strong>dl</strong>.</p>
 
                     <p>If you are on windows and you are experiencing connectivity issues, please check <a
                             href="https://github.com/jorditorresBCN/dlaimet/blob/master/windows_proxy.md"
@@ -73,77 +76,120 @@ docker start -i YOUR_CONTAINER_ID</code></pre>
                     <h3 class="panel-title"><span class="autosection">numsection</span> How to provide your services through an API?</h3>
                 </div>
                 <div class="panel-body">
-                    <p>As we show, we can plots in Python using libraries like matplotlib.  However, how to provide our results through an API to consumers?
-                    If you want to use python to build a prototype server (of your service) and want to provide web-base API with minimal efforts, you can just use python <code>SimpleHTTPServer</code> and <code>SocketServer</code> packages.</p>
+                    <p>As we show, we can plots in Python using libraries like matplotlib.
+                        However, how to provide our results through an API to consumers? In this lab we will use the
+                        <a href="http://flask.pocoo.org/" target="_blank">Flask</a> framework to
+                    create a simple API.</p>
 
-                    <p><strong class="autotask">task</strong>: Create a new notebook with the following code</p>
+                    <p><strong class="autotask">task</strong>: Open the notebook <code>flask_api_notebook.ipynb</code> and review the code.</p>
 
-                                        <pre><code class="python">import http.server as SimpleHTTPServer
-import socketserver as SocketServer
+                    <p><strong class="autotask">task</strong>: Fulfill the Twitter variables with the same keys as the last lab.</p>
 
-class MyRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
-    def do_GET(self):
-        if self.path == '/':
-            self.path = '/OurService.html'
-        return SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
+                                        <pre><code class="python"># Twitter Keys
+consumer_key = ''
+consumer_secret = ''
+access_token = ''
+access_secret = ''
+</code></pre>
+                    <p>The structure of an API view using <a href="http://flask.pocoo.org/" target="_blank">Flask</a>
+                        should be something like this:</p>
 
-Handler = MyRequestHandler
-server = SocketServer.TCPServer(('0.0.0.0', 8954), Handler)
-
-print('Started my REST API on port 8954') 
-server.serve_forever()
+                    <pre><code class="python"># The route of our view and the accepted methods.
+@app.route('/url', methods=['METHOD'])
+def process_some_data():
+    # Compute data
+    data = ...
+    # Return data using JSON format
+    return jsonify(data)
 </code></pre>
                 
-                </a><p>Now you can open your browser at <a target="_blank" href="http://localhost:8954" rel="nofollow">http://localhost:8954</a> and obtain acces to <code>OurService.html</code>.</p>
-                <p><strong class="autotask">task</strong>: Generate <code>OurService.html</code></p>
-                <p>The question now is how we can generate our service <code>OurService.html</code> in order to be provided by the server. Imagine that we want to provide the plot obtained in the previous Lab. We have different options, however I suggest to use <a href="https://d3js.org" rel="nofollow">D3.js</a>.</p>
-                <p>Because D3 plays well with web standards like CSS and SVG, and allows to create some wonderful interactive visualisations in the web, many of my data science colleagues think that it is one of the coolest libraries for data visualisation.</p>
-                <p><a href="https://d3js.org" rel="nofollow">D3.js</a> is, as the name suggests, based on Javascript. We will present a simple option to support data D3 visualisation with Python using the Python library <a href="https://github.com/wrobstory/vincent">Vincent</a>, that bridges the gap between a Python back-end and a front-end that supports D3.js visualisation. Vincent takes our data in Python format and translates them into <a href="https://github.com/trifacta/vega">Vega</a>, a JSON-based visualisation grammar that will be used on top of D3.</p>
-                <p>Firstly, we need to install Vincent:</p>
-                <pre><code class="bash">#CTRL + C to close Jupyter
-pip install vincent</code></pre>
-                <p>Using the list of most frequent hashtags from the case study data set we used in the previous Lab, we want to plot their frequencies:</p>
-                <pre><code class="python">import vincent
- 
-word_freq = count_all.most_common(15)
-labels, freq = zip(*word_freq)
-data = {'data': freq, 'x': labels}
-bar = vincent.Bar(data, iter_idx='x')
-bar.to_json('term_freq.json')
+                    <p><strong class="autotask">task</strong>: The first function of our API will be a method that
+                        returns our Twitter account info. Paste the following code before the main function and run
+                        all the blocks.</p>
 
+                    <pre><code class="python">@app.route('/api/twitter', methods=['GET'])
+def get_twitter_data():
+    auth = OAuthHandler(consumer_key, consumer_secret)
+    auth.set_access_token(access_token, access_secret)
+    api = tweepy.API(auth)
+    user = api.me()
+
+    data = {
+        'screen_name': user.screen_name,
+        'name': user.name,
+        'location': user.location,
+        'followers': str(user.followers_count),
+        'created': str(user.created_at),
+        'description': str(user.description),
+        'profile_image': str(user.profile_image_url)
+    }
+
+    return jsonify(data)
 </code></pre>
 
-                    <p>At this point, the file <code>term_freq.json</code> will contain a description of the plot that can be handed over to D3.js and Vega. A simple template (taken from <a href="https://github.com/wrobstory/vincent">Vincent resources</a>) to visualise the plot:</p>
+                    <p>At this point, you can go to <a href="http://localhost:8954/api/twitter" target="_blank">
+                        http://localhost:8954/api/twitter</a> and you will see a JSON with your Twitter account information.</p>
 
-                    <p>Save the above HTML page as <code>OurService.html</code>.
-                    Now you can open your browser at <a href="http://localhost:8954" rel="nofollow">http://localhost:8954</a> and obtain acces to <code>OurService.html</code>.</p>
-                    <p>With this procedure, we can plot many different types of charts with <code>Vincent</code>. <a href="http://vincent.readthedocs.io/en/latest/" rel="nofollow">Explore yourself</a>. If you are interested in building a real server, there are many good Python frameworks for building a RESTful API as <a href="http://flask.pocoo.org/" rel="nofollow">Flask</a>, <a href="http://falconframework.org/" rel="nofollow">Falcon</a> and <a href="http://bottlepy.org/docs/dev/index.html" rel="nofollow">Bottle</a>.</p>
-                    <p>However, if you need to deploy your service in the Cloud, <a href="https://cloudacademy.com/amazon-web-services/understanding-aws-lambda-course/" rel="nofollow">AWS Lambda</a> allows you to not deal with over/under capacity, deployments, scaling and fault tolerance, OS or language updates, metrics, and logging. AWS Lambda introduced a new serverless world. AWS community started working on a complete solution to develop AWS-powered microservices or backends for web, mobile, and IoT applications. The migration required facilitation because of the building-block nature of AWS Lambda and its complex symbiosis with Amazon API Gateway. One example is <a href="https://serverless.com" rel="nofollow">Serverless Framework</a> that allows to build auto-scaling, pay-per-execution, event-driven apps on AWS Lambda. <strong>(optional project)</strong></p>
-                    <p>Before starting the next task, create a <code>.pynb</code> file that demonstrates that you followed this example.</p>
+                    <p><strong class="autotask">task</strong>: Upload the file <code>filename</code>
+                        (downloaded from "El Racó") to the Jupyter Notebook as you did during the last lab.</p>
+                    <p><strong class="autotask">task</strong>: Add the following code after the first method of the API, modify
+                    the <code>fname</code> in the two functions if it is necessary.</p>
 
-                </div>
+                    <pre><code class="python">@app.route('/api/twitter/datafrequency', methods=['GET'])
+def process_twitter_data():
+    fname = 'Lab3.CaseStudy.json'
+    with open(fname, 'r') as f:
+        count_all = Counter()
+        for line in f:
+            tweet = json.loads(line)
+            # Create a list with all the terms
+            terms_hash = [term for term in preprocess(tweet['text']) if term.startswith('#') and term not in stop]
+            count_all.update(terms_hash)
+    # Print the first 15 most frequent words
+    data = {
+        'file_name': fname,
+        'words': count_all.most_common(15)
+    }
+    return jsonify(data)
+
+
+@app.route('/api/twitter/datamap', methods=['GET'])
+def process_twitter_data_map():
+    fname = 'Lab3.CaseStudy.json'
+    with open(fname, 'r') as f:
+        geo_data = {
+            "type": "FeatureCollection",
+            "features": []
+        }
+        for line in f:
+            tweet = json.loads(line)
+            if tweet['coordinates']:
+                geo_json_feature = {
+                    "type": "Feature",
+                    "geometry": tweet['coordinates'],
+                    "properties": {
+                        "text": tweet['text'],
+                        "created_at": tweet['created_at']
+                    }
+                }
+                geo_data['features'].append(geo_json_feature)
+    return jsonify(geo_data)
+</code></pre>
+                    <p>This two functions returns data extracted from the file that you have uploaded to Jupyter.
+                        The first one returns the first 15 most frequent hashtags, the second one returns the location of the tweets.
+                    You can check if they are working visiting the urls that are in the <code>@app.route</code> decorator.</p>
+                      </div>
             </div>
-
-            
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title"><span class="autosection">numsection</span> Lab Tasks</h3>
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Consuming the API data</h3>
                 </div>
                 <div class="panel-body">
-                    <strong class="autotask">task</strong>: Install Docker for your platform
-                        <ul>
-                            <li>
-                                Windows 10 Pro/Enterprise, MacOS, Linux: <a
-                                    href="https://store.docker.com/search?type=edition&offering=community"
-                                    target="_blank">Link to Docker Store</a>.
-                            </li>
-                            <li>
-                                Other Windows versions: <a target="_blank"
-                                                           href="https://docs.docker.com/toolbox/toolbox_install_windows/">Link
-                                to Docker Toolbox</a>.
-                            </li>
-                        </ul>
+                    <p><strong class="autotask">task</strong>: Download the repository of the course to your computer. Click
+                    <a href="https://github.com/jorditorresBCN/CC-MEI-2018/archive/master.zip">HERE</a> to download it and then
+                        un-compress it.
+                    </p>
                     
                     <strong class="autotask">task</strong>: Download and run the Docker image. Open a terminal
                         (Mac/Linux), Open cmd or powershell (Windows 10 Pro) or Open the Docker CLI (Other windows

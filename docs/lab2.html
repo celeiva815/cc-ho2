@@ -171,13 +171,10 @@ count = Counter(filtered)</code></pre>
 
                     <h5><strong class="autotask">task</strong>: Tweepy</h5>
 
-                    <p>In order to interact with the Twitter APIs, we need a Python client that implements the different calls to the API itself. There are several options as we can see from the <a href="https://dev.twitter.com/resources/twitter-libraries" target="_blank">official documentation</a>. We will chose for this lab <a href="http://tweepy.readthedocs.io/en/v3.5.0/" target="_blank">Tweepy</a>. The easiest way to install the latest version is by using pip/easy_install to pull it from <a href="https://pypi.python.org/pypi" target="_blank">PyPI</a> to your local directory:</p>
-
-                    <pre><code class="bash">#Press CTRL + C to stop Jupyter
-pip install tweepy</code></pre>
+                    <p>In order to interact with the Twitter APIs, we need a Python client that implements the different calls to the API itself. There are several options as we can see from the <a href="https://dev.twitter.com/resources/twitter-libraries" target="_blank">official documentation</a>. We will chose for this lab <a href="http://tweepy.readthedocs.io/en/v3.5.0/" target="_blank">Tweepy</a>.
 
 
-                    <p>Restart the Jupyter Notebook and create a notebook with the name <code>Lab2.TweepyAPI.ipynb</code> to keep track of all your work.</p>
+                    <p>Create a notebook with the name <code>Lab2.TweepyAPI.ipynb</code> to keep track of all your work.</p>
 
                     <p>In order to authorise our app to access Twitter on our behalf, we need to use the OAuth interface:</p>
 
@@ -488,7 +485,10 @@ For instance, if we want to count <em>hastags</em> only:</p>
                 </div>
                 <div class="panel-body">
                     <h5><strong class="autotask">task</strong>: Case study</h5>
-                    <p>At <a href="https://raco.fib.upc.edu/home/portada/jordi.torres" rel="nofollow">Racó (course intranet)</a>" you can find a small dataset as a example (please do not distribute due to Twitter licensing). This dataset contains 1060 tweets downloaded from around 18:05 to 18:15  on January 13. We used "Barcelona" as a <code>track</code> parameter at <code>twitter_stream.filter</code> function.</p>
+                    <p>At <a href="https://raco.fib.upc.edu/home/portada/jordi.torres" rel="nofollow">Racó (course intranet)</a>"
+                        you can find a small dataset as a example (please do not distribute due to Twitter licensing).
+                        This dataset contains 1060 tweets downloaded from around 18:05 to 18:15  on January 13.
+                        We used "Barcelona" as a <code>track</code> parameter at <code>twitter_stream.filter</code> function. You can add the file to Jupyter Notebook using the upload button in the main page of Jupyter.</p>
                     <p>We would like to get a rough idea of what was telling people about Barcelona. For example, we can count and sort the most commonly used hastags:</p>
 <pre><code class="python">import operator 
 import json
