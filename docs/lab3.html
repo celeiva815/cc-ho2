@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="pull-right">
-                <img src="https://www.lomasnuevo.net/wp-contentupl/2016/11/googlecloud.png" class="img" style="height: 200px;
+                <img src="http://www.infoespacial.com/archivo/images/google-cloud.png" class="img" style="height: 200px;
 padding-bottom: 20px;"/></div>
         </div>
     </div>
@@ -133,7 +133,7 @@ def get_twitter_data():
                     <p><strong class="autotask">task</strong>: Upload the file <code>filename</code>
                         (downloaded from "El Racó") to the Jupyter Notebook as you did during the last lab.</p>
                     <p><strong class="autotask">task</strong>: Add the following code after the first method of the API, modify
-                    the <code>fname</code> in the two functions if it is necessary.</p>
+                    the <code>fname</code> variable in the two functions if it is necessary.</p>
 
                     <pre><code class="python">@app.route('/api/twitter/datafrequency', methods=['GET'])
 def process_twitter_data():
@@ -176,7 +176,9 @@ def process_twitter_data_map():
     return jsonify(geo_data)
 </code></pre>
                     <p>This two functions returns data extracted from the file that you have uploaded to Jupyter.
-                        The first one returns the first 15 most frequent hashtags, the second one returns the location of the tweets.
+                        The first one returns the first 15 most frequent hashtags, the second one returns the location
+                        of the tweets, the format of the map info is encoded using
+                        <a href="http://geojson.org/" target="_blank">GeoJSON</a>.
                     You can check if they are working visiting the urls that are in the <code>@app.route</code> decorator.</p>
                       </div>
             </div>
@@ -203,8 +205,9 @@ def process_twitter_data_map():
                              style="height: 75%"/>
                     </div>
 
-                    <p>The following code shows how a simple API call works, it is the call for the first view of the API. The method
-                        <code>loadTwitterAccount</code> is linked to the first load button.</p>
+                    <p>The following code shows how a simple Javascript API call works, it is the call for the first
+                        view of the API. The method <code>loadTwitterAccount</code> is linked
+                        to the first load button.</p>
 
                     <pre><code class="javascript">function loadTwitterAccount() {
     $.get(api_url+"/api/twitter", function (data) {
@@ -217,6 +220,212 @@ def process_twitter_data_map():
     });
 }
 </code></pre>
+                     <p><strong class="autotask">task</strong>: Modify the API method <code>get_twitter_data()</code>
+                        and the Javascript call <code>loadTwitterAccount()</code> in order to add more fields about your
+                     Twitter account. Modify the HTML code if it is necessary.</p>
+
+                    <p>The following code shows how to create a bar chart using
+                        <a href="https://developers.google.com/chart/interactive/docs/" target="_blank">Google Charts</a>
+                        and the data from the API:</p>
+                    <pre><code class="javascript">// Load the Visualization API and the corechart package.
+google.charts.load('current', {'packages': ['corechart']});
+// Callback that creates and populates a data table,
+// instantiates the bar chart, passes in the data and
+// draws it.
+function drawChart(data_to_plot) {
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Hashtag');
+    data.addColumn('number', 'Number');
+    data.addRows(data_to_plot);
+    // Set chart options
+    var options = {
+        'title': 'Hashtag freq',
+        'width': 700,
+        'height': 550
+    };
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+}
+
+function loadTwitterFreqChart() {
+    $.get(api_url+"/api/twitter/datafrequency", function (data) {
+        $('#file_name').html(data.file_name);
+        drawChart(data.words);
+    });
+}
+</code></pre>
+                    <div class="alert alert-info">
+                        <p><strong>About Google Charts:</strong></p>
+
+                        <p>Google Charts provides a perfect way to visualize data on your website.
+                        From simple line charts to complex hierarchical tree maps, the
+                        <a href="https://developers.google.com/chart/interactive/docs/gallery" target="_blank">chart gallery</a>
+                        provides a large number of ready-to-use chart types.</p>
+
+                        <p>The most common way to use Google Charts is with simple JavaScript
+                        that you embed in your web page. You load some Google Chart libraries,
+                        list the data to be charted, select options to customize your chart,
+                        and finally create a chart object with an <tt>id</tt> that you choose.
+                        Then, later in the web page, you create a <tt>&lt;div&gt;</tt>
+                        with that <tt>id</tt> to display the Google Chart.</p>
+
+                    </div>
+
+
+                    <p><strong class="autotask">task</strong>: Modify the the Javascript code in order to obtain
+                        a pie chart instead a bar chart, use the
+                        <a href="https://developers.google.com/chart/interactive/docs/" target="_blank">Google Charts</a>
+                        documentation. Modify the HTML code if it is necessary.</p>
+
+                    <p>This code is the call for the Map information, it retrieves the data from the API and uses
+                    <a href="http://leafletjs.com/" target="_blank">Leaflet.js</a> for the map creation.</p>
+
+                    <pre><code class="javascript">function loadTwitterMap() {
+    var mytiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    });
+    // Initialise an empty map
+    var map = L.map('map');
+    $.get(api_url+"/api/twitter/datamap", function (data) {
+        map.addLayer(mytiles).setView([40.5, 5.0], 5);
+        var myStyle = {
+            radius: 2,
+            fillColor: "red",
+            color: "red",
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 1
+        };
+
+        var geojson = L.geoJson(data, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, myStyle);
+            }
+        });
+        geojson.addTo(map)
+    });
+}
+</code></pre>
+                    <div class="alert alert-info">
+                        <p><strong>About Leaflet.js:</strong></p>
+
+                        <p>Leaflet is the leading open-source JavaScript library for mobile-friendly interactive maps.
+                        Weighing just about <abbr title="38 KB gzipped — that's 133 KB minified and 378 KB in the source form, with 10 KB of CSS (2 KB gzipped) and 11 KB of images.">38 KB of JS</abbr>,
+                        it&nbsp;has all the mapping <a href="#features">features</a> most developers ever need.</p>
+
+                        <p>Leaflet is designed with <em>simplicity</em>, <em>performance</em> and <em>usability</em> in mind.
+                        It works efficiently across all major desktop and mobile platforms,
+                        can be extended with lots of <a href="plugins.html">plugins</a>,
+                        has a beautiful, easy to use and <a title="Leaflet API reference" href="reference.html">well-documented API</a>
+                        and a simple, readable&nbsp;<a title="Leaflet source code repository on GitHub" href="https://github.com/Leaflet/Leaflet">source code</a> that is a&nbsp;joy to
+                        <a title="A guide to contributing to Leaflet" href="https://github.com/Leaflet/Leaflet/blob/master/CONTRIBUTING.md">contribute</a> to.</p>
+                    </div>
+
+                    <p><strong class="autotask">task</strong>:
+                        Modify the the Javascript code to change the initial positon of the map.
+                        Make it closer to the center of Barcelona.</p>
+
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="autosection">numsection</span> Google Cloud Vision <button class="btn btn-right btn-xs btn-default pull-right" disabled>OPTIONAL</button></h3>
+                </div>
+                <div class="panel-body">
+                    <p>During this hands on we are going to experiment the power of the Cloud Vision API from Google
+                        to detect text within images as an example of Advanced Analytics as a Service in the Cloud.
+                        This hands-on follows the official introduction to image classification that is available
+                        <a target="_blank" href="https://cloud.google.com/vision/docs/detecting-labels"
+                           rel="nofollow">here</a>.</p>
+
+                    <p>This hands-on helps you to classify images using labels.
+                        <a target="_blank" href="https://cloud.google.com/vision/" rel="nofollow">Cloud Vision API</a>
+                        enables
+                        developers to understand the content of an image by encapsulating powerful machine learning
+                        models in an easy to use REST API. It quickly classifies images into thousands of categories
+                        (e.g., "sailboat", "lion", "Eiffel Tower"), detects individual objects and faces within images
+                        and finds and reads printed words contained within images. You can build metadata on your image
+                        catalog, moderate offensive content, or enable new marketing scenarios through image sentiment
+                        analysis. Analyze images uploaded in the request or integrate with your image storage on Google
+                        Cloud Storage. Try the API <a target="_blank" href="https://cloud.google.com/vision/"
+                                                      rel="nofollow">here
+                            (Drag image file here or Browse from your computer)</a>.</p>
+
+                    <div class="alert alert-warning"><strong>Prepare the following task before starting the lab:</strong></div>
+
+                    <p><strong class="autotask">task</strong>: The first step is to <a href="https://cloud.google.com/vision/" target="_blank">sign up</a>. It exists a free trial for this service, to fully enjoy the benefits of Google’s Cloud platform the best option is to get a business trial, with $300 worth of free credit for this year. That amount is far more than enough for the expected needs on this subject’s scope and will give you time enough to explore other features. Once the registration process is finished, we need to access the <a href="https://console.cloud.google.com/home" rel="nofollow">management console</a>, where it is possible to create a new project, choosing a name and an ID for it. It is necessary to enable billing for this project to continue, but as long as we are spending from the free credit we have there is nothing to worry about.
+The project creation process takes a few seconds, after finishing it will appear in our list. It is time to select the new project and enable the Cloud Vision API that is the tool we will use during this hands-on. Finally, it is needed to set up some credentials that will be the way we authenticate to enable the communication: This can be done selecting “Credentials” in the left menu and simply clicking over the blue button saying “Create credentials” and choosing the “service account key” option.  Select JSON as your key type. Once completed, your service account key is downloaded to your browser's default location.</p>
+
+                    <p><strong class="autotask">task</strong>: Upload the JSON credentials file to Jupyter,
+                        stop the notebook server and write the following in your container:</p>
+                    <pre><code class="bash"># CTRL + C to stop Jupyter
+export GOOGLE_APPLICATION_CREDENTIALS=your_credentials_file.json
+</code></pre>
+                    <p><strong class="autotask">task</strong>: Restart Jupyter Notebook and add the following method to the API: </p>
+<pre><code class="python">@app.route('/api/image', methods=['POST'])
+def process_data_image():
+    opener = urllib.request.build_opener()
+    opener.addheaders = [('User-Agent',
+                          'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1941.0 Safari/537.36')]
+    urllib.request.install_opener(opener)
+    url_image = request.form['url']
+    img_path = '/tmp/image'
+    urllib.request.urlretrieve(url_image, img_path)
+    service = googleapiclient.discovery.build('vision', 'v1')
+
+    data = []
+    with open(img_path, 'rb') as image:
+        image_content = base64.b64encode(image.read())
+        service_request = service.images().annotate(body={
+            'requests': [{
+                'image': {
+                    'content': image_content.decode('UTF-8')
+                },
+                'features': [{
+                    'type': 'LABEL_DETECTION',
+                    'maxResults': 5
+                }]
+            }]
+        })
+        response = service_request.execute()
+        for result in response['responses'][0]['labelAnnotations']:
+            data.append({'description': result['description'], 'score': result['score']})
+
+    return jsonify(data)
+</code></pre>
+                    <p>This method downloads an image using a given URL and sends it to the Google Cloud Vision API.
+                        When the Cloud Vision API answers, it collects the response and formats the response in JSON
+                    format. Notice the <code>opener.addheaders</code> variable, some image servers do not accept connections
+                    from applications and only accept petitions from browsers, with these line we say that we are
+                    a Windows PC using a traditional browser.</p>
+
+                    <p>This is our first POST method in the API, we need a POST method because the HTML webpage will send us
+                    an URL containing the image that we will analyze. The HTML code that calls this API method is:</p>
+
+                    <pre><code class="python">function loadCloudVision() {
+    $('#imagecloudvision').attr('src', $('#urlcloudvision').val());
+    $('#resultscloudvision').html("");
+    $.post(api_url+"/api/image", $("#imageurlform").serialize(), function (data) {
+        for(var x=0; x &lt data.length; x++) {
+            var category = data[x];
+            $('#resultscloudvision').append(category.description+" - "+ category.score)
+        }
+    });
+
+
+}
+</code></pre>
+                    <p><strong class="autotask">task</strong>:
+                        Run the Jupyter code and try to classify 5 images.</p>
+
+                     <div class="center-image">
+                        <img src="img/cloudvision.png"
+                             style="width: 65%"/>
+                    </div>
 
                 </div>
             </div>
